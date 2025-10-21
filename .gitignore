@@ -1,0 +1,16 @@
+# dist/
+.temp/
+.rn_temp/
+node_modules/
+.DS_Store
+说明.txt
+.idea/
+yarn.lock
+.vscode
+yarn-error.log
+yarn.lock
+npm-debug.log
+package-lock.json
+.DS_Store
+src/.DS_Store
+.vs
