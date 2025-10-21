@@ -14,3 +14,4 @@ package-lock.json
 .DS_Store
 src/.DS_Store
 .vs
+node_modules
