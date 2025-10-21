@@ -4,7 +4,7 @@ import SideMenu from './SideMenu';
 import TopHeader from './TopHeader';
 import { setUserInfo } from '@/redux/actions/userInfo';
 import { Layout } from 'antd';
-import MainContent from './MainContent';
+// import MainContent from './MainContent';
 import BreadCrumb from './BreadCrumb';
 class Index extends Component {
 	render() {
@@ -16,7 +16,7 @@ class Index extends Component {
 					<Layout>
 						<TopHeader />
 						{breadCrumb.show ? <BreadCrumb /> : null}
-						<MainContent />
+						{/* <MainContent /> */}
 					</Layout>
 				</Layout>
 			</div>
