@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/home/back-manage/build/static/css/main.f28f853d.chunk.css",
-    "main.js": "/home/back-manage/build/static/js/main.ccbfc39e.chunk.js",
-    "main.js.map": "/home/back-manage/build/static/js/main.ccbfc39e.chunk.js.map",
-    "runtime~main.js": "/home/back-manage/build/static/js/runtime~main.1a87690e.js",
-    "runtime~main.js.map": "/home/back-manage/build/static/js/runtime~main.1a87690e.js.map",
-    "static/css/2.8b113fd9.chunk.css": "/home/back-manage/build/static/css/2.8b113fd9.chunk.css",
-    "static/js/2.e4dadb09.chunk.js": "/home/back-manage/build/static/js/2.e4dadb09.chunk.js",
-    "static/js/2.e4dadb09.chunk.js.map": "/home/back-manage/build/static/js/2.e4dadb09.chunk.js.map",
-    "index.html": "/home/back-manage/build/index.html",
-    "precache-manifest.9d71d4c35d34a692adaffa281440b514.js": "/home/back-manage/build/precache-manifest.9d71d4c35d34a692adaffa281440b514.js",
-    "service-worker.js": "/home/back-manage/build/service-worker.js",
-    "static/css/2.8b113fd9.chunk.css.map": "/home/back-manage/build/static/css/2.8b113fd9.chunk.css.map",
-    "static/css/main.f28f853d.chunk.css.map": "/home/back-manage/build/static/css/main.f28f853d.chunk.css.map"
+    "main.css": ".//static/css/main.f28f853d.chunk.css",
+    "main.js": ".//static/js/main.f94866f4.chunk.js",
+    "main.js.map": ".//static/js/main.f94866f4.chunk.js.map",
+    "runtime~main.js": ".//static/js/runtime~main.55b4d891.js",
+    "runtime~main.js.map": ".//static/js/runtime~main.55b4d891.js.map",
+    "static/css/2.8b113fd9.chunk.css": ".//static/css/2.8b113fd9.chunk.css",
+    "static/js/2.b0ef528a.chunk.js": ".//static/js/2.b0ef528a.chunk.js",
+    "static/js/2.b0ef528a.chunk.js.map": ".//static/js/2.b0ef528a.chunk.js.map",
+    "index.html": ".//index.html",
+    "precache-manifest.5f88a3ca13a1bc72398c3209f9e515da.js": ".//precache-manifest.5f88a3ca13a1bc72398c3209f9e515da.js",
+    "service-worker.js": ".//service-worker.js",
+    "static/css/2.8b113fd9.chunk.css.map": ".//static/css/2.8b113fd9.chunk.css.map",
+    "static/css/main.f28f853d.chunk.css.map": ".//static/css/main.f28f853d.chunk.css.map"
   }
 }
