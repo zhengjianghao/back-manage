@@ -164,5 +164,6 @@
       ]
     ]
   },
-  "repository": "git@github.com:chenjun1127/react-antd-admin.git"
+  "repository": "git@github.com:chenjun1127/react-antd-admin.git",
+  "homepage": "http://120.26.254.204/home/back-manage/build"
 }
