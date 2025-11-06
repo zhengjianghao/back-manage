@@ -24,7 +24,12 @@ class Sider extends React.PureComponent {
           height: '32px',
           background: 'rgba(255,255,255,.2)',
           margin: '16px',
-        }}/>
+          color: 'white',
+          textAlign: 'center',
+          lineHeight: '32px'
+        }}>
+          高尔夫教务系统
+        </div>
 
         <LocationContext.Consumer>
           {value => <SiderMenu location={value} />}

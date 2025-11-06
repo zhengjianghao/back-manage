@@ -6,9 +6,17 @@ const initState = {
   pageNum: 0,
   listType: 'list',
   productName: '',
+  jiaoLianList: [{
+    name: '1',
+    id: 3
+  }, {
+    name: '12',
+    id: 33
+  }]
 };
 
 const reducer = (state = initState, action) => {
+  
   switch (action.type) {
     case GET_PRODUCT_LIST_DATA:
       return {

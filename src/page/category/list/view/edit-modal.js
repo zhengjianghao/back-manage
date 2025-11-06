@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Form, Input } from 'antd';
+import { Modal, Form, Input, Select, message, Checkbox } from 'antd';
 
 const formItemLayout = {
   labelCol: {
@@ -10,14 +10,25 @@ const formItemLayout = {
     sm: { span: 16 },
   },
 };
+const plainOptions = [
+  { label: '球杆存放柜', value: '球杆存放柜' },
+  { label: '休息区', value: '休息区' },
+  { label: 'WIFI', value: 'WIFI' },
+  { label: '淋浴间', value: '淋浴间' },
+];
+const CheckboxGroup = Checkbox.Group;
 
 class EditorModal extends React.Component {
+
+  state = {
+    parentCategory: []
+  }
   handleOk = () => {
-    const { currentEditCategoryData, handleEditCategoryName } = this.props;
+    const { handleEditCategoryName, onEditCallBack } = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        const { parentId, id } = currentEditCategoryData;
-        handleEditCategoryName(parentId, id, values.categoryName);
+        // const { parentId, id } = currentEditCategoryData;
+        handleEditCategoryName(values, onEditCallBack);
       }
     });
   }
@@ -26,6 +37,16 @@ class EditorModal extends React.Component {
     this.props.handleCancelEdit();
   }
 
+   getSelectOptions = datas => {
+      if (datas) {
+        return datas.map(element => (
+          <Select.Option value={element.id} key={element.id}>
+            {element.name}
+          </Select.Option>
+        ));
+      }
+    }
+
   render() {
     const { editorModalVisible, currentEditCategoryData, form } = this.props;
     const { getFieldDecorator } = form;
@@ -33,18 +54,42 @@ class EditorModal extends React.Component {
     return (
       <span>
         <Modal
-          title={`修改品类 [${currentEditCategoryData.name || ''}] 名称`}
+          title={`修改场地`}
           visible={editorModalVisible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
           <Form>
-            <Form.Item {...formItemLayout} label="名称">
-              {getFieldDecorator('categoryName', {
+            <Form.Item {...formItemLayout} label="场地名称">
+              {getFieldDecorator('name', {
                 initialValue: currentEditCategoryData.name,
-                rules: [{ required: true, message: '此项为必填项' }],
+                rules: [{ required: true, message: '请输入场地名称' }],
+              })(<Input />)}
+            </Form.Item>
+            <Form.Item {...formItemLayout} label="场地类型" >
+              {getFieldDecorator('type', {
+                initialValue: currentEditCategoryData.type,
+                rules: [{
+                  required: true, message: '此项为必填项',
+                }],
+              })(<Select
+                placeholder='请选择场地类型'
+              >
+                {this.getSelectOptions(this.state.parentCategory)}
+              </Select>)}
+            </Form.Item>
+
+            <Form.Item {...formItemLayout} label="场地容量">
+              {getFieldDecorator('capacity', {
+                initialValue: currentEditCategoryData.capacity,
+                rules: [{ required: true, message: '请输入场地容量' }],
+              })(<Input />)}
+            </Form.Item>
+            <Form.Item {...formItemLayout} label="场地设施">
+              {getFieldDecorator('cdss', {
+                initialValue: currentEditCategoryData.facility ? currentEditCategoryData.facility.split(',') : [],
               })(
-                <Input />
+                <CheckboxGroup options={plainOptions} />
               )}
             </Form.Item>
           </Form>

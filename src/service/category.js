@@ -1,14 +1,10 @@
 import { get, post } from 'util/request';
+import APIS from 'api/index';
 
-/**
- * 获取品类子节点
- * @param {number} parentId 父节点 id
- */
-function requestCategory(parentId) {
-  const url = '/manage/category/get_category.do';
-  return get(url, {
-    categoryId: parentId || 0
-  });
+// 获取场地列表
+function requestCategory(params) {
+
+  return get(APIS.GET_CD_LIST, params);
 }
 
 /**
@@ -16,24 +12,79 @@ function requestCategory(parentId) {
  * @param {string} categoryId 
  * @param {string} categoryName 
  */
-function requestEditCategoryName(categoryId, categoryName) {
-  const url = '/manage/category/set_category_name.do';
+function requestCreateCategory(params) {
+  return post(APIS.ADD_CD, params);
+}
+function requestEditCategoryName({id, ...other}) {
+  const url = `/admin/court/${id}/update`;
   return post(url, {
-    categoryId,
-    categoryName
+    ...other
   });
 }
 
-function requestCreateCategory(parentId, categoryName) {
-  const url = '/manage/category/add_category.do';
+function delCD(id) {
+  const url = `/admin/court/${id}/delete`;
+  return post(url);
+}
+
+
+// 教练相关
+function getJLList(params) {
+
+  return get(APIS.GET_COACH_LIST, params);
+}
+
+
+function addJL(params) {
+  return post(APIS.ADD_COACH, params);
+}
+function editJL({id, ...other}) {
+  const url = `/admin/coach/${id}/update`;
   return post(url, {
-    parentId,
-    categoryName
+    ...other
   });
 }
+
+function delJL(id) {
+  const url = `/admin/coach/${id}/delete`;
+  return post(url);
+}
+
+// 会员相关
+function getMemberList(params) {
+
+  return get(APIS.GET_MEMBER_LIST, params);
+}
+
+
+function addMember(params) {
+  return post(APIS.ADD_COACH, params);
+}
+function editMember({id, ...other}) {
+  const url = `/admin/member/${id}/update`;
+  return post(url, {
+    ...other
+  });
+}
+
+function delMember(id) {
+  const url = `/admin/member/${id}/delete`;
+  return post(url);
+}
+
+
 
 export {
   requestCategory,
   requestEditCategoryName,
-  requestCreateCategory
+  requestCreateCategory,
+  delCD,
+  getJLList,
+  addJL,
+  editJL,
+  delJL,
+  getMemberList,
+  addMember,
+  editMember,
+  delMember
 };

@@ -38,7 +38,7 @@ class LoginPage extends React.PureComponent {
    * @param {string} password 用户密码
    */
   handleUserLogin = async (userName, password) => {
-    saveUserDataStorage({name: 'jinmu'});
+    // saveUserDataStorage({name: 'jinmu'});
     try {
       await requestUserLogin(userName, password);
       message.success('登录成功');

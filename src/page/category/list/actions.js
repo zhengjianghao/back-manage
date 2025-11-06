@@ -10,25 +10,29 @@ import {
   HANDLE_CREATE,
 } from './actionTypes';
 
-import { requestCategory, requestEditCategoryName, requestCreateCategory } from 'service/category';
+import { requestCategory, requestEditCategoryName, requestCreateCategory, delCD } from 'service/category';
 
-const getCategoryListData = (parentCategoryId) => {
-  if (!parentCategoryId) {
-    parentCategoryId = 0;
-  }
+const getCategoryListData = (params) => {
+
 
   return async dispatch => {
     try {
-      const data = await requestCategory(parentCategoryId);
+      const data = await requestCategory(params);
 
       dispatch({
         type: GET_CATEGORY_LIST_DATA,
         payload: {
-          categoryListData: data,
+          categoryListData: data.records,
+          searchParmas: {
+            ...params,
+            size: data.size,
+            current: data.current,
+          },
+          total: data.total
         }
       });
     } catch (error) {
-      message.error(error || '查询商品分类数据出错');
+      message.error(error);
     }
   };
 };
@@ -49,9 +53,9 @@ const handleCancelEdit = () => ({
   }
 });
 
-const handleEditCategoryName = (parentCategoryId, categoryId, categoryName) => {
+const handleEditCategoryName = (params, cb) => {
   return dispatch => {
-    requestEditCategoryName(categoryId, categoryName).then((msg) => {
+    requestEditCategoryName(params).then((msg) => {
       message.success(msg);
       dispatch({
         type: HANDLE_EDIT,
@@ -60,7 +64,7 @@ const handleEditCategoryName = (parentCategoryId, categoryId, categoryName) => {
           currentEditCategoryData: {}
         }
       });
-      dispatch(getCategoryListData(parentCategoryId));
+      cb && cb()
     }).catch(error => message.error(error));
   };
 };
@@ -79,9 +83,9 @@ const handleCancelCreate = () => ({
   }
 });
 
-const handleCreateCategory = (parentId, categoryName) => {
+const handleCreateCategory = (params, cb) => {
   return dispatch => {
-    requestCreateCategory(parentId, categoryName).then(msg => {
+    requestCreateCategory(params).then(msg => {
       message.success(msg);
       dispatch({
         type: HANDLE_CREATE,
@@ -89,9 +93,26 @@ const handleCreateCategory = (parentId, categoryName) => {
           createModalVisible: false
         }
       });
+      cb && cb()
     }).catch(error => message.error(error));
   };
 };
+
+const del = (id, cb) => {
+return dispatch => {
+    delCD(id).then((msg) => {
+      message.success(msg);
+      // dispatch({
+      //   type: HANDLE_EDIT,
+      //   payload: {
+      //     editorModalVisible: false,
+      //     currentEditCategoryData: {}
+      //   }
+      // });
+      cb && cb()
+    }).catch(error => message.error(error));
+  };
+}
 
 export {
   getCategoryListData,
@@ -101,4 +122,5 @@ export {
   handleOpenCreateModal,
   handleCancelCreate,
   handleCreateCategory,
+  del
 };

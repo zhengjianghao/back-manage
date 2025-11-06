@@ -6,6 +6,7 @@ module.exports = merge(common, {
   devtool: 'inline-source-map',
   devServer: {
     contentBase: './build',
+    host: 'dev.xianqu.cn',
     port: 3000,
     historyApiFallback: true,
     proxy: {

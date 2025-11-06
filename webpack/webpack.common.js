@@ -31,6 +31,7 @@ module.exports = {
       'page': path.resolve(__dirname, '../src/page/'),
       'util': path.resolve(__dirname, '../src/util/'),
       'service': path.resolve(__dirname, '../src/service/'),
+      'api': path.resolve(__dirname, '../src/api/')
     }
   },
 };

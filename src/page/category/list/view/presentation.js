@@ -7,15 +7,12 @@ import { categoryRoute } from 'util/route';
 import EditorModal from './edit-modal';
 import CreateModal from './create-modal';
 import PageWrapper from 'component/page-wrapper';
+import SearchForm from './search-form';
 
 class CategoryList extends React.Component {
   componentDidMount() {
-    document.title = '分类列表';
-
-    const { getCategoryListData, match } = this.props;
-    const { categoryId } = match.params;
-
-    getCategoryListData(categoryId);
+    document.title = '场地管理';
+    this.getList()
   }
 
   componentDidUpdate(prevProps) {
@@ -31,54 +28,54 @@ class CategoryList extends React.Component {
 
   }
 
-  getRouteData = (categoryId) => {
-    let routeData = [{
-      key: categoryRoute.list,
-      text: '一级品类管理'
-    }];
+  getList = () => {
+    const { getCategoryListData, searchParams } = this.props;
+    
 
-    if (categoryId && categoryId !== 0) {
-      routeData = [{
-        key: categoryRoute.list,
-        link: categoryRoute.list,
-        text: '一级品类管理'
-      }, {
-        key: `${categoryRoute.list}/${categoryId}`,
-        text: '二级品类管理'
-      }];
-    }
-
-    return routeData;
+    getCategoryListData(searchParams);
   }
+
+
 
   render() {
     const {
-      categoryListData, editorModalVisible, currentEditCategoryData, createModalVisible
+      categoryListData, editorModalVisible, currentEditCategoryData, createModalVisible,
+      pageSize,
+      pageNum,
+      cangdiList,
+      total
     } = this.props.categoryList;
 
     const { categoryId } = this.props.match.params;
 
     const columns = [{
-      title: '名称',
+      title: '场地名称',
       dataIndex: 'name',
       key: 'name',
+    }, {
+      title: '类型',
+      dataIndex: 'typtypeDesce',
+      key: 'typeDesc',
+    }, {
+      title: '容量',
+      dataIndex: 'capacity',
+      key: 'capacity',
+    }, {
+      title: '设施',
+      dataIndex: 'facility',
+      key: 'facility',
+    }, {
+      title: '当前状态',
+      dataIndex: 'statusDesc',
+      key: 'statusDesc',
     }, {
       title: '操作',
       key: 'action',
       width: 150,
       render: (text, record) => (
         <span>
-          <a onClick={() => this.props.handleOpenEditModal(record)}>修改</a>
-
-          {
-            !categoryId
-              ? [
-                <span key='span'> | </span>,
-                <Link key='link' to={`${categoryRoute.list}/${record.id}`}>查看子分类</Link>
-              ]
-              : null
-          }
-
+          <a onClick={() => this.props.handleOpenEditModal(record)}>编辑</a>
+          <a style={{ marginLeft:'12px'}} onClick={() => this.props.del(record.id, this.getList)}>删除</a>
         </span>
       )
     }];
@@ -87,12 +84,23 @@ class CategoryList extends React.Component {
       columns,
       dataSource: categoryListData,
       rowKey: 'id',
+      pagination: {
+        pageSize,
+        current: pageNum,
+        total,
+        onChange: (page, pageSize) => this.props.getCategoryListData(pageSize, page)
+      }
     };
 
-    const routeData = this.getRouteData(categoryId, categoryListData);
     
     return (
-      <PageWrapper routeData={routeData}>
+      <PageWrapper>
+        <SearchForm
+          getProductList={this.props.getCategoryListData}
+          pageSize={pageSize}
+          pageNum={pageNum}
+          cangdiList={cangdiList}
+        />
         <div style={{ marginBottom: 30 }}>
           <Button type='primary' onClick={this.props.handleOpenCreateModal}>新增</Button>
         </div>
@@ -102,11 +110,13 @@ class CategoryList extends React.Component {
           currentEditCategoryData={currentEditCategoryData}
           handleCancelEdit={this.props.handleCancelEdit}
           handleEditCategoryName={this.props.handleEditCategoryName}
+          onEditCallBack={this.getList}
         />
         <CreateModal
           parentId={categoryId}
           visible={createModalVisible}
           handleCancelCreate={this.props.handleCancelCreate}
+          onEditCallBack={this.getList}
           handleCreateCategory={this.props.handleCreateCategory}
         />
       </PageWrapper>

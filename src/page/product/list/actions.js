@@ -39,6 +39,33 @@ const getProductList = (listType, pageSize, pageNum, productName) => {
   };
 };
 
+const getJiaoLianList = (listType, pageSize, pageNum, productName) => {
+  return async dispatch => {
+    try {
+      // const { list, total } = await requestProductList(listType, {
+      //   pageSize,
+      //   pageNum,
+      //   productName
+      // });
+			
+      dispatch({
+        type: GET_PRODUCT_LIST_DATA,
+        payload: {
+          jiaoLianList: [{
+            name: '1',
+            id: 3
+          }, {
+            name: '12',
+            id: 33
+          }]
+        }
+      });
+    } catch (error) {
+      message.error(error || '查询商品列表出错');
+    }
+  };
+};
+
 /**
  * 设置商品的上架状态，并获取最新的列表信息
  * @param {string} productId 
@@ -62,4 +89,5 @@ const setProductSaleStatus = (productId, productStatus) => {
 export {
   getProductList,
   setProductSaleStatus,
+  getJiaoLianList,
 };

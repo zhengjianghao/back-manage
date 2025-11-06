@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Card } from 'antd';
+import style from './style.scss';
 
 class HomeCard extends React.PureComponent {
   clearNumber = num => {
@@ -22,9 +23,9 @@ class HomeCard extends React.PureComponent {
 
     return (
       <Link to={linkTo}>
-        <Card bordered={false} hoverable title={title} >
+        <Card bordered={true} hoverable title={title} >
           <div>
-            <p style={textStyle}>{this.clearNumber(num)}</p>
+            <p className={style.cardText}>{this.clearNumber(num)}</p>
           </div>
         </Card>
       </Link>

@@ -67,41 +67,49 @@ class SiderMenu extends React.PureComponent {
         onClick={this.handleMenuClick}
         onOpenChange={this.handleOpenChange}
       >
-        <SubMenu
+        {/* <SubMenu
           key="/"
-          title={<span><Icon type="user" /><span>仪表盘</span></span>}
-        >
+          title={<span><Icon type="user" /><span>首页</span></span>}
+        > */}
           <Menu.Item key="/">
             <Link to="/"><Icon type="pie-chart" />首页</Link>
           </Menu.Item>
-        </SubMenu>
+        {/* </SubMenu> */}
 
-        <SubMenu
+        {/* <SubMenu
           key='/product'
           title={<span><Icon type="user" /><span>商品</span></span>}
-        >
-          <Menu.Item key={productRoute.list}>
-            <Link to={productRoute.list}><Icon type="pie-chart" />商品管理</Link>
-          </Menu.Item>
-        </SubMenu>
-
+        > */}
+        <Menu.Item key={productRoute.list}>
+          <Link to={productRoute.list}><Icon type="pie-chart" />课程安排</Link>
+        </Menu.Item>
+        {/* </SubMenu> */}
+{/* 
         <SubMenu
           key='/category'
           title={<span><Icon type="user" /><span>品类</span></span>}
-        >
+        > */}
           <Menu.Item key={categoryRoute.list}>
-            <Link to={categoryRoute.list}><Icon type="pie-chart" />品类管理</Link>
+            <Link to={categoryRoute.list}><Icon type="user" />场地管理</Link>
           </Menu.Item>
-        </SubMenu>
-
-        <SubMenu
+        {/* </SubMenu> */}
+        <Menu.Item key='/coach/list'>
+          <Link to='/coach/list'><Icon type="pie-chart" />教练管理</Link>
+        </Menu.Item>
+        <Menu.Item key='/member/list'>
+          <Link to='/member/list'><Icon type="pie-chart" />会员管理</Link>
+        </Menu.Item>
+        <Menu.Item key='/data/list'>
+          <Link to='/data/list'><Icon type="pie-chart" />数据统计</Link>
+        </Menu.Item>
+        {/* <SubMenu
           key='/order'
           title={<span><Icon type="pie-chart" /><span>订单</span></span>}
-        >
-          <Menu.Item key={orderRoute.list}>
-            <Link to={orderRoute.list}><Icon type="pie-chart" />订单管理</Link>
-          </Menu.Item>
-        </SubMenu>
+        > */}
+        {/* <Menu.Item key={orderRoute.list}>
+          <Link to={orderRoute.list}><Icon type="pie-chart" />教练管理</Link>
+        </Menu.Item> */}
+        {/* </SubMenu> */}
 
         <SubMenu
           key='/user'

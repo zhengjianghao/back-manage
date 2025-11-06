@@ -1,6 +1,7 @@
 import { get, post } from 'util/request';
 import { saveUserDataStorage, removeUserDataStorage } from 'util/storege';
 import { emitUserDataEvent } from 'util/custom-event';
+import APIS from 'api/index';
 
 /**
  * 用户登录
@@ -8,16 +9,18 @@ import { emitUserDataEvent } from 'util/custom-event';
  * @param {string} password 密码
  */
 function requestUserLogin(username, password) {
-  const url = '/manage/user/login.do';
-  const data = {
-    username,
-    password,
-  };
-  return post(url, data).then(userData => {
-    saveUserDataStorage(userData);
-    emitUserDataEvent('login');
-    return userData;
-  });
+  saveUserDataStorage({username: 'jinmu'});
+  emitUserDataEvent('login');
+  // const url = '/manage/user/login.do';
+  // const data = {
+  //   username,
+  //   password,
+  // };
+  // return post(APIS.LOGIN, data).then(userData => {
+  //   saveUserDataStorage(userData);
+  //   emitUserDataEvent('login');
+  //   return userData;
+  // });
 }
 
 /**

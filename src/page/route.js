@@ -11,6 +11,9 @@ import { Route as UserRoute } from 'page/user/index';
 import { Route as ProductRoute } from 'page/product/index';
 import { Route as CategoryRoute } from 'page/category/index';
 import { Route as OrderRoute } from 'page/order';
+import { Route as CoachRoute } from 'page/jiaolianManage';
+import { Route as MemberRoute } from 'page/memberManage';
+import { Route as DataRoute } from 'page/dataManage';
 
 const LoadableHome = Loadable({
   loader: () => import('page/home/index.js'),
@@ -27,7 +30,10 @@ class PageRoute extends React.Component {
             <Route path='/user' component={UserRoute} />
             <Route path='/product' component={ProductRoute} />
             <Route path='/category' component={CategoryRoute} />
+            <Route path='/coach' component={CoachRoute} />
             <Route path='/order' component={OrderRoute} />
+            <Route path='/member' component={MemberRoute} />
+            <Route path='/data' component={DataRoute} />
             <Route component={ErrorPage} />
           </Switch>
         </Layout>

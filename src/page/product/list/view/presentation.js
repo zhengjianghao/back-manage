@@ -9,8 +9,9 @@ import SearchForm from './search-form';
 
 class ProductList extends React.Component {
   componentDidMount() {
-    document.title = '商品列表';
+    document.title = '课程管理';
     this.props.getProductList('list', 10, 1);
+    this.props.getJiaoLianList()
   }
 
   /**
@@ -29,9 +30,8 @@ class ProductList extends React.Component {
   }
 
   render() {
-
     const {
-      listType, productListData, pageSize, pageNum, total, productName
+      listType, productListData, pageSize, pageNum, total, productName, jiaoLianList
     } = this.props.productList;
 
     const productStyle = {
@@ -41,24 +41,45 @@ class ProductList extends React.Component {
     };
 
     const columns = [{
-      title: '名称',
+      title: '课程名称',
       dataIndex: 'name',
       key: 'name',
     }, {
-      title: '标题',
+      title: '日期',
       dataIndex: 'subtitle',
       key: 'subtitle',
     }, {
-      title: '价格',
-      dataIndex: 'price',
-      key: 'price',
-      width: 100,
-      render: text => `￥${text}`
+      title: '时间',
+      dataIndex: 'price1',
+      key: 'price1',
     }, {
-      title: '商品状态',
+      title: '教练',
+      dataIndex: 'jl',
+      key: 'price',
+    }, {
+      title: '场地',
+      dataIndex: 'cd',
+      key: 'cd',
+    }, {
+      title: '学员',
+      dataIndex: 'xy',
+      key: 'xy',
+    }, {
+      title: '会员级别',
+      dataIndex: 'hyjb',
+      key: 'hyjb',
+    }, {
+      title: '总共课时',
+      dataIndex: 'price3',
+      key: 'price3',
+    }, {
+      title: '剩余课时',
+      dataIndex: 'price2',
+      key: 'price2',
+    }, {
+      title: '状态',
       dataIndex: 'status',
       key: 'status',
-      width: 170,
       render: (text, record) => {
         return (
           <div style={productStyle}>
@@ -105,11 +126,12 @@ class ProductList extends React.Component {
     }];
 
     return (
-      <PageWrapper routeData={routeData}>
+      <PageWrapper>
         <SearchForm
           getProductList={this.props.getProductList}
           pageSize={pageSize}
           pageNum={pageNum}
+          jiaoLianList={jiaoLianList}
         />
         <div style={{ marginBottom: 30 }}>
           <Link to={productRoute.editor}>

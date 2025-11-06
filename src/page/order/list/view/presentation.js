@@ -9,7 +9,7 @@ import SearchForm from './search-form';
 
 class ProductList extends React.Component {
   componentDidMount() {
-    document.title = '订单列表';
+    document.title = '教练管理';
     this.props.getOrderList(10, 1);
   }
 
@@ -63,16 +63,8 @@ class ProductList extends React.Component {
       }
     };
 
-    const routeData = [{
-      key: '/order',
-      text: '订单'
-    }, {
-      key: orderRoute.list,
-      text: '订单管理'
-    }];
-
     return (
-      <PageWrapper routeData={routeData}>
+      <PageWrapper>
         <SearchForm
           handleOrderSearch={this.props.handleOrderSearch}
           getOrderList={this.props.getOrderList}

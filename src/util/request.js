@@ -7,7 +7,7 @@ const request = (config) => {
 
   const axioConfig = {
     method,
-    url: `/api${url}`,
+    url: `${url}`,
     data,
     params,
   };

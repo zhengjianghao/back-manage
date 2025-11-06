@@ -72,6 +72,7 @@ class ImageUpload extends React.Component {
       onChange: this.handleChange,
       name: 'upload_file',
       fileList: fileList ? fileList : this.props.value,
+      showUploadList: false
     };
 
     return (
