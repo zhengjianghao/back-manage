@@ -4,7 +4,7 @@ import APIS from 'api/index';
 // 获取场地列表
 function requestCategory(params) {
 
-  return get(APIS.GET_CD_LIST, params);
+  return post(APIS.GET_CD_LIST, params);
 }
 
 /**
@@ -31,7 +31,19 @@ function delCD(id) {
 // 教练相关
 function getJLList(params) {
 
-  return get(APIS.GET_COACH_LIST, params);
+  return post(APIS.GET_COACH_LIST, params);
+}
+
+
+function getJLMoneyConfig(id) {
+
+  return post(APIS.GET_COACH_MONEY_CONFIG + id);
+}
+
+
+function saveJLMoneyConfig(params) {
+
+  return post(APIS.SAVE_COACH_MONEY_CONFIG, params);
 }
 
 
@@ -53,22 +65,22 @@ function delJL(id) {
 // 会员相关
 function getMemberList(params) {
 
-  return get(APIS.GET_MEMBER_LIST, params);
+  return post(APIS.GET_MEMBER_LIST, params);
 }
 
 
 function addMember(params) {
-  return post(APIS.ADD_COACH, params);
+  return post(APIS.ADD_MEMBER, params);
 }
 function editMember({id, ...other}) {
-  const url = `/admin/member/${id}/update`;
+  const url = `/admin/student/${id}/update`;
   return post(url, {
     ...other
   });
 }
 
 function delMember(id) {
-  const url = `/admin/member/${id}/delete`;
+  const url = `/admin/student/${id}/delete`;
   return post(url);
 }
 
@@ -86,5 +98,7 @@ export {
   getMemberList,
   addMember,
   editMember,
-  delMember
+  delMember,
+  getJLMoneyConfig,
+  saveJLMoneyConfig
 };

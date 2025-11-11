@@ -8,6 +8,28 @@ import PageWrapper from 'component/page-wrapper';
 import Card from './card.js';
 import style from './style.scss';
 const weeks = ['周天', '周一', '周二', '周三', '周四', '周五', '周六']
+// 简单使用 - 周一为开始
+function getThisWeekRange() {
+  const today = new Date();
+  const dayOfWeek = today.getDay(); // 0-6 (周日-周六)
+  
+  const start = new Date(today);
+  const diff = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // 周一为开始
+  start.setDate(today.getDate() - diff);
+  start.setHours(0, 0, 0, 0);
+  
+  const end = new Date(start);
+  end.setDate(start.getDate() + 6);
+  end.setHours(23, 59, 59, 999);
+  
+  return {
+    start: start.toLocaleDateString('zh-CN'),
+    end: end.toLocaleDateString('zh-CN'),
+    startDate: start,
+    endDate: end
+  };
+}
+
 const FormItem = Form.Item;
 const { Option } = Select;
 const AddModal = Form.create()((props) => {

@@ -23,14 +23,23 @@ const RadioGroup = Radio.Group;
 class EditorModal extends React.Component {
 
   state = {
-    parentCategory: []
+    parentCategory: [
+      { name: '中级', id: 1 },
+      { name: '高级', id: 2 },
+      { name: '特级', id: 3 },
+    ]
   }
   handleOk = () => {
-    const { handleEditCategoryName, onEditCallBack } = this.props;
+    const { handleEditCategoryName, onEditCallBack, currentEditCategoryData, handleCreateCategory } = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         // const { parentId, id } = currentEditCategoryData;
-        handleEditCategoryName(values, onEditCallBack);
+        const avatar = values.avatar[0]
+        if (currentEditCategoryData.id) {
+          handleEditCategoryName({...currentEditCategoryData, ...values, avatar }, onEditCallBack);
+        } else {
+          handleCreateCategory({...values, avatar}, onEditCallBack)
+        }
       }
     });
   }
@@ -124,7 +133,7 @@ class EditorModal extends React.Component {
             </Form.Item>
             <Form.Item {...formItemLayout} label="教练性别">
               {getFieldDecorator('gender', {
-                initialValue: currentEditCategoryData.phone || 1,
+                initialValue: currentEditCategoryData.gender || 1,
               })(
                 <RadioGroup>
                   <Radio value={1}>男</Radio>

@@ -10,9 +10,9 @@ module.exports = merge(common, {
     port: 3000,
     historyApiFallback: true,
     proxy: {
-      '/api': {
-        target: 'http://admintest.happymmall.com',
-        pathRewrite: {'^/api' : ''},
+      '/admin': {
+        target: 'http://121.41.188.72:8001',
+        pathRewrite: {'^/admin' : '/admin'},
         changeOrigin: true
       },
     }

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Ajax  from './io';
 
 import { removeUserDataStorage } from './storege';
 
@@ -32,41 +33,43 @@ const request = (config) => {
  * @param {string} url 
  * @param {object} params 查询参数
  */
-const get = (url, params) => {
-  return request({
-    method: 'GET',
-    url,
-    params,
-  });
-};
+// const get = (url, params) => {
+//   return request({
+//     method: 'GET',
+//     url,
+//     params,
+//   });
+// };
 
-/**
- * 将数据转换为表单格式
- * @param {object} data 表单数据
- */
-const createFormData = data => {
-  if (!data) return;
+// /**
+//  * 将数据转换为表单格式
+//  * @param {object} data 表单数据
+//  */
+// const createFormData = data => {
+//   if (!data) return;
 
-  let processedData = new FormData();
-  Object.keys(data).forEach(element => {
-    processedData.append(element, data[element]);
-  });
+//   let processedData = new FormData();
+//   Object.keys(data).forEach(element => {
+//     processedData.append(element, data[element]);
+//   });
 
-  return processedData;
-};
+//   return processedData;
+// };
 
-/**
- * post 请求
- * @param {string} url 
- * @param {object} data 数据
- */
-const post = (url, data) => {
-  return request({
-    method: 'POST',
-    url,
-    data: createFormData(data),
-  });
-};
+// /**
+//  * post 请求
+//  * @param {string} url 
+//  * @param {object} data 数据
+//  */
+// const post = (url, data) => {
+//   return request({
+//     method: 'POST',
+//     url,
+//     data: createFormData(data),
+//   });
+// };
+const get = Ajax.get
+const post = Ajax.post
 
 export {
   get,

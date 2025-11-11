@@ -9,10 +9,10 @@ function setStorage(key, data) {
 
   if (dataType === 'object') {
     // json 对象处理
-    sessionStorage.setItem(key, JSON.stringify(data));
+    localStorage.setItem(key, JSON.stringify(data));
   } else if (['number', 'string', 'boolean'].includes(dataType)) {
     // 基础类型
-    sessionStorage.setItem(key, data);
+    localStorage.setItem(key, data);
   } else {
     alert('该类型不能用于本地存储');
   }
@@ -23,7 +23,7 @@ function setStorage(key, data) {
  * @param {string} key 
  */
 function getStorage(key) {
-  const data = sessionStorage.getItem(key);
+  const data = localStorage.getItem(key);
   
   if (data) {
     return JSON.parse(data);
@@ -33,7 +33,7 @@ function getStorage(key) {
 }
 
 function removeStorage(key) {
-  sessionStorage.removeItem(key);
+  localStorage.removeItem(key);
 }
 
 /**

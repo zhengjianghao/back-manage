@@ -10,14 +10,14 @@ import {
   HANDLE_CREATE,
 } from './actionTypes';
 
-import { getJLList, editJL, addJL, delJL } from 'service/category';
+import { getMemberList, editMember, addMember, delMember } from 'service/category';
 
 const getCategoryListData = (params) => {
 
 
   return async dispatch => {
     try {
-      const data = await getJLList(params);
+      const {data} = await getMemberList(params);
 
       dispatch({
         type: GET_CATEGORY_LIST_DATA,
@@ -55,7 +55,7 @@ const handleCancelEdit = () => ({
 
 const handleEditCategoryName = (params, cb) => {
   return dispatch => {
-    editJL(params).then((msg) => {
+    editMember(params).then((msg) => {
       message.success(msg);
       dispatch({
         type: HANDLE_EDIT,
@@ -86,12 +86,13 @@ const handleCancelCreate = () => ({
 
 const handleCreateCategory = (params, cb) => {
   return dispatch => {
-    addJL(params).then(msg => {
+    addMember(params).then(msg => {
       message.success(msg);
       dispatch({
         type: HANDLE_CREATE,
         payload: {
-          createModalVisible: false
+          editorModalVisible: false,
+          currentEditCategoryData: {}
         }
       });
       cb && cb()
@@ -101,7 +102,7 @@ const handleCreateCategory = (params, cb) => {
 
 const del = (id, cb) => {
 return dispatch => {
-    delJL(id).then((msg) => {
+    delMember(id).then((msg) => {
       message.success(msg);
       // dispatch({
       //   type: HANDLE_EDIT,

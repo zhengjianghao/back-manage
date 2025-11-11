@@ -1,20 +1,14 @@
 import { get, post } from 'util/request';
+import APIS from 'api/index';
 
 /**
  * 获取商品列表数据
  * @param {string} listType 列表类型，list 代表普通列表，search 表示搜索列表
  * @param {object} params 查询参数
  */
-function requestProductList(listType, params) {
-  let url = '';
+function requestProductList(params) {
   
-  if (listType === 'list') {
-    url = '/manage/product/list.do';
-  } else if (listType === 'search') {
-    url = '/manage/product/search.do';
-  }
-  
-  return get(url, params);
+  return post(APIS.GET_CLASS_LIST, params);
 }
 
 /**

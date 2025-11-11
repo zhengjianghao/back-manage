@@ -15,24 +15,15 @@ class MemberList extends React.Component {
     this.getList()
   }
 
-  componentDidUpdate(prevProps) {
-    const { categoryId } = this.props.match.params;
-    const { categoryId: prevCategoryId } = prevProps.match.params;
-
-    if (categoryId !== prevCategoryId) {
-      this.props.getCategoryListData(categoryId);
-    }
-  }
-
   getColumn = () => {
 
   }
 
   getList = () => {
-    const { getCategoryListData, searchParams } = this.props;
+    const { getCategoryListData, memberList } = this.props;
     
 
-    getCategoryListData(searchParams);
+    getCategoryListData(memberList.searchParams);
   }
 
 
@@ -53,30 +44,42 @@ class MemberList extends React.Component {
       dataIndex: 'name',
       key: 'name',
     }, {
-      title: '性别',
-      dataIndex: 'gender',
-      key: 'gender',
+      title: '电话',
+      dataIndex: 'phone',
+      key: 'phone',
     }, {
-      title: '年龄',
-      dataIndex: 'age',
-      key: 'age',
+      title: '会员级别',
+      dataIndex: 'vipLevelString',
+      key: 'vipLevelString',
     }, {
-      title: '级别',
-      dataIndex: 'level',
-      key: 'level',
+      title: '套餐类型',
+      dataIndex: 'courseSetTypeDesc',
+      key: 'courseSetTypeDesc',
     }, {
-      title: '专长',
-      dataIndex: 'speciality',
-      key: 'speciality',
+      title: '缴费总额',
+      dataIndex: 'totalAmount',
+      key: 'totalAmount',
     }, {
-      title: '请假时间',
-      dataIndex: 'date',
-      key: 'date',
-      render: (val, record) => {
-        <div>
-          {record.nextLeaveStartTime}-{record.nextLeaveEndTime}
-        </div>
-      }
+      title: '总共课时',
+      dataIndex: 'courseTotalNumber',
+      key: 'courseTotalNumber',
+      // render: (val, record) => {
+      //   <div>
+      //     {record.nextLeaveStartTime}-{record.nextLeaveEndTime}
+      //   </div>
+      // }
+    }, {
+      title: '剩余课时',
+      dataIndex: 'courseRemainingNumber',
+      key: 'courseRemainingNumber',
+    }, {
+      title: '入会日期',
+      dataIndex: 'joinTimeStr',
+      key: 'joinTimeStr',
+    }, {
+      title: '会员到期时间',
+      dataIndex: 'statusDesc',
+      key: 'statusDesc',
     }, {
       title: '状态',
       dataIndex: 'statusDesc',
@@ -118,13 +121,17 @@ class MemberList extends React.Component {
           <Button type='primary' onClick={this.props.handleOpenCreateModal}>新增</Button>
         </div>
         <Table {...tableProps} />
-        <EditorModal
-          editorModalVisible={editorModalVisible}
-          currentEditCategoryData={currentEditCategoryData}
-          handleCancelEdit={this.props.handleCancelEdit}
-          handleEditCategoryName={this.props.handleEditCategoryName}
-          onEditCallBack={this.getList}
-        />
+        {
+          editorModalVisible &&
+          <EditorModal
+            editorModalVisible={editorModalVisible}
+            currentEditCategoryData={currentEditCategoryData}
+            handleCancelEdit={this.props.handleCancelEdit}
+            handleEditCategoryName={this.props.handleEditCategoryName}
+            handleCreateCategory={this.props.handleCreateCategory}
+            onEditCallBack={this.getList}
+          />
+        }
         <CreateModal
           parentId={categoryId}
           visible={createModalVisible}

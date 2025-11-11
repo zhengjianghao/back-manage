@@ -17,7 +17,7 @@ class ProductSearchForm extends React.Component {
         // let { productName } = values;
         // if (!productName) productName = undefined;
         // const { pageSize, pageNum } = this.props;
-        this.props.getProductList({...values});
+        this.props.getProductList({...values, size: 10, current: 1});
       }
     });
   }
@@ -35,8 +35,13 @@ class ProductSearchForm extends React.Component {
         layout="inline"
         onSubmit={this.handleSearch}
       >
-        <FormItem label="教练名称">
-          {getFieldDecorator('cd')(
+        <FormItem label="教练名称" >
+          {getFieldDecorator('name', {
+            initialValue: '',
+          })(<Input />)}
+        </FormItem>
+        {/* <FormItem label="教练名称">
+          {getFieldDecorator('name')(
             <Select
               style={{ width: 150 }}
               showSearch
@@ -55,9 +60,11 @@ class ProductSearchForm extends React.Component {
               })}
             </Select>
           )}
-        </FormItem>
+        </FormItem> */}
         <FormItem label="教练级别">
-          {getFieldDecorator('type')(
+          {getFieldDecorator('level', {
+            initialValue: '',
+          })(
             <Select
               style={{ width: 150 }}
               placeholder="选择类型"
@@ -70,7 +77,9 @@ class ProductSearchForm extends React.Component {
           )}
         </FormItem>
         <FormItem label="教练状态">
-          {getFieldDecorator('status')(
+          {getFieldDecorator('status', {
+            initialValue: '',
+          })(
             <Select
               style={{ width: 150 }}
               placeholder="教练状态"
@@ -97,8 +106,8 @@ class ProductSearchForm extends React.Component {
 ProductSearchForm.propTypes = {
   form: PropTypes.object.isRequired,
   getProductList: PropTypes.func.isRequired,
-  pageSize: PropTypes.number.isRequired,
-  pageNum: PropTypes.number.isRequired,
+  // pageSize: PropTypes.number.isRequired,
+  // pageNum: PropTypes.number.isRequired,
 };
 
 export default Form.create()(ProductSearchForm);

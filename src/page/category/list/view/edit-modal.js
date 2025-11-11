@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Form, Input, Select, message, Checkbox } from 'antd';
+import PicUploader from 'component/pic-uploader/index'
 
 const formItemLayout = {
   labelCol: {
@@ -21,13 +22,22 @@ const CheckboxGroup = Checkbox.Group;
 class EditorModal extends React.Component {
 
   state = {
-    parentCategory: []
+    parentCategory: [
+      { name: '标准场', id: 1 },
+      { name: '练习场', id: 2 },
+      { name: '培训室', id: 3 },
+    ]
   }
   handleOk = () => {
     const { handleEditCategoryName, onEditCallBack } = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         // const { parentId, id } = currentEditCategoryData;
+        const { facility } = values
+        let _facility = ''
+        if (facility.length > 0) {
+          _facility = facility.join('')
+        }
         handleEditCategoryName(values, onEditCallBack);
       }
     });
@@ -86,10 +96,29 @@ class EditorModal extends React.Component {
               })(<Input />)}
             </Form.Item>
             <Form.Item {...formItemLayout} label="场地设施">
-              {getFieldDecorator('cdss', {
+              {getFieldDecorator('facility', {
                 initialValue: currentEditCategoryData.facility ? currentEditCategoryData.facility.split(',') : [],
               })(
                 <CheckboxGroup options={plainOptions} />
+              )}
+            </Form.Item>
+            <Form.Item {...formItemLayout} label="场地图片">
+              {getFieldDecorator('coverImageList', {
+                rules: [{ required: true, message: '请上传场地图片！' }],
+                initialValue: currentEditCategoryData.coverImageList || []
+              })(
+                <PicUploader
+                  value={currentEditCategoryData.coverImageList || []}
+                  maxLength={10}
+                  withOriginSize={false}
+                  forBanner={true}
+                  // onChange={(value) => {
+                  //   this.changeHeader({
+                  //     type: 'picture',
+                  //     value: value[0]
+                  //   })
+                  // }}
+                />
               )}
             </Form.Item>
           </Form>

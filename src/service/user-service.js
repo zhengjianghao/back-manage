@@ -9,18 +9,19 @@ import APIS from 'api/index';
  * @param {string} password 密码
  */
 function requestUserLogin(username, password) {
-  saveUserDataStorage({username: 'jinmu'});
-  emitUserDataEvent('login');
-  // const url = '/manage/user/login.do';
-  // const data = {
-  //   username,
-  //   password,
-  // };
-  // return post(APIS.LOGIN, data).then(userData => {
-  //   saveUserDataStorage(userData);
-  //   emitUserDataEvent('login');
-  //   return userData;
-  // });
+  // saveUserDataStorage({username: 'jinmu'});
+  // emitUserDataEvent('login');
+  const data = {
+    username,
+    password,
+  };
+  return post(APIS.LOGIN, data).then(userData => {
+    if (userData.code == '200') {
+      saveUserDataStorage(userData.data);
+      emitUserDataEvent('login');
+    }
+    return userData;
+  });
 }
 
 /**

@@ -42,10 +42,12 @@ const initState = {
     size: 10,
     current: 1,
     name: '',
-    type: '',
+    level: '',
     status: ''
   },
-  total: ''
+  total: '',
+  listItemInfo: {}, // 当个教练信息
+  editMoneyModal: false
 };
 
 const reducer = (state = initState, action) => {

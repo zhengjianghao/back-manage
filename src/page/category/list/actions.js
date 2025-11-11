@@ -17,7 +17,7 @@ const getCategoryListData = (params) => {
 
   return async dispatch => {
     try {
-      const data = await requestCategory(params);
+      const {data} = await requestCategory(params);
 
       dispatch({
         type: GET_CATEGORY_LIST_DATA,

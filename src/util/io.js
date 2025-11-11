@@ -8,6 +8,11 @@ const onRequestSuccess = (config) => {
     config.params = config.params || {};
     config.params.t = +new Date();
   }
+  const _token = localStorage.getItem('token') || '';
+  if (_token) {
+    config.headers.common['amulong-token'] = _token;
+  }
+  config.headers['content-type'] = 'application/json;charset=UTF-8'
   // if(config.url.indexOf('http') == -1) {
   //     config.url = Util.getHost() + config.url;
   // }
@@ -18,6 +23,11 @@ const onResponseSuccess = (res) => {
     location.host.indexOf('dev') > -1 ? '//dailyka.xianqu.cn/kaweb/login' : '';
   if (res.headers['content-type'] == 'application/octet-stream;charset=UTF-8') {
     return res.data;
+  }
+  if (res.config.url == '/admin/login' && res.data.code == 200) {
+    const _token = res.headers['amulong-token'];
+    axios.defaults.headers.common['amulong-token'] = _token;
+    localStorage.setItem('token', _token);
   }
   if (res.data.responseCode === 10212 && res.data.status === false) {
     location.href = `${path}/kaweb/login.html?redirectUrl=${location.href}`;

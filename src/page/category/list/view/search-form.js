@@ -14,10 +14,7 @@ class ProductSearchForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // let { productName } = values;
-        // if (!productName) productName = undefined;
-        // const { pageSize, pageNum } = this.props;
-        this.props.getProductList({...values});
+        this.props.getProductList({...values, size: 10, current: 1});
       }
     });
   }
@@ -28,15 +25,38 @@ class ProductSearchForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { cangdiList = [] } = this.props
+    const { jiaoLianList = [] } = this.props
     return (
       <Form
         className="ant-advanced-search-form"
         layout="inline"
         onSubmit={this.handleSearch}
       >
-        <FormItem label="场地">
-          {getFieldDecorator('cd')(
+         {/* <FormItem label="教练">
+          {getFieldDecorator('jiaolian', {
+            // initialValue: '',
+          })(
+            <Select
+              style={{ width: 150 }}
+              placeholder="请选择教练"
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) => {
+                return option.props.children.indexOf(input) != -1;
+              }}
+            >
+              {(jiaoLianList && jiaoLianList).map((item) => {
+                return (
+                  <Option
+                    value={item.id}
+                  >{`${item.name}`}</Option>
+                );
+              })}
+            </Select>
+          )}
+        </FormItem> */}
+        <FormItem label="场地名称">
+          {/* {getFieldDecorator('name')(
             <Select
               style={{ width: 150 }}
               showSearch
@@ -46,7 +66,7 @@ class ProductSearchForm extends React.Component {
                 return option.props.children.indexOf(input) != -1;
               }}
             >
-              {(cangdiList && cangdiList).map((item) => {
+              {(jiaoLianList && jiaoLianList).map((item) => {
                 return (
                   <Option
                     value={item.id}
@@ -54,29 +74,39 @@ class ProductSearchForm extends React.Component {
                 );
               })}
             </Select>
-          )}
+          )} */}
+          {getFieldDecorator('name', {
+            initialValue: '',
+          })(<Input />)}
         </FormItem>
         <FormItem label="场地类型">
-          {getFieldDecorator('type')(
+          {getFieldDecorator('type', {
+            initialValue: ''
+          })(
             <Select
-              style={{ width: 150 }}
-              placeholder="选择类型"
+              style={{ width: 100 }}
+              placeholder="请选择场地类型"
             >
               <Option value={''}>全部</Option>
-              <Option value={0}>标准场</Option>
-              <Option value={1}>练习区</Option>
+              <Option value={1}>标准场</Option>
+              <Option value={2}>练习场</Option>
+              <Option value={3}>培训室</Option>
             </Select>
           )}
         </FormItem>
         <FormItem label="场地状态">
-          {getFieldDecorator('status')(
+          {getFieldDecorator('status', {
+            initialValue: ''
+          })(
             <Select
-              style={{ width: 150 }}
+              style={{ width: 100 }}
               placeholder="选择状态"
             >
               <Option value={''}>全部</Option>
-              <Option value={0}>已预约</Option>
-              <Option value={1}>未预约</Option>
+              <Option value={1}>可用</Option>
+              <Option value={2}>占用</Option>
+              <Option value={3}>维护中</Option>
+              <Option value={4}>停工</Option>
             </Select>
           )}
         </FormItem>
@@ -96,6 +126,7 @@ ProductSearchForm.propTypes = {
   getProductList: PropTypes.func.isRequired,
   pageSize: PropTypes.number.isRequired,
   pageNum: PropTypes.number.isRequired,
+  jiaoLianList: PropTypes.array
 };
 
 export default Form.create()(ProductSearchForm);

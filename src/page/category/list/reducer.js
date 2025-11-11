@@ -9,28 +9,7 @@ import {
 } from './actionTypes';
 
 const initState = {
-  categoryListData: [
-   {
-    "createUserId": 0,
-    "createUserName": "",
-    "createAt": "",
-    "updateUserId": 0,
-    "updateUserName": "",
-    "updateAt": "",
-    "id": 0,
-    "name": "",
-    "type": 0,
-    "typeDesc": "",
-    "address": "",
-    "capacity": 0,
-    "facility": "",
-    "status": 0,
-    "statusDesc": "",
-    "description": "",
-    "coverImageList": [],
-    "coverImageUrlList": []
-  }
-  ],
+  categoryListData: [],
   editorModalVisible: false,
   currentEditCategoryData: {},
   createModalVisible: false,

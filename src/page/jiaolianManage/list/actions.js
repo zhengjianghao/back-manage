@@ -10,14 +10,14 @@ import {
   HANDLE_CREATE,
 } from './actionTypes';
 
-import { getJLList, editJL, addJL, delJL } from 'service/category';
+import { getJLList, editJL, addJL, delJL, getJLMoneyConfig } from 'service/category';
 
 const getCategoryListData = (params) => {
 
 
   return async dispatch => {
     try {
-      const data = await getJLList(params);
+      const {data} = await getJLList(params);
 
       dispatch({
         type: GET_CATEGORY_LIST_DATA,
@@ -53,6 +53,54 @@ const handleCancelEdit = () => ({
   }
 });
 
+const showSetMoney = (val) => {
+  return async dispatch => {
+    try {
+      // const data = await getJLMoneyConfig(val.id);
+
+      dispatch({
+        type: GET_CATEGORY_LIST_DATA,
+        payload: {
+          editMoneyModal: true,
+          listItemInfo: {
+            ...val,
+            // configList: data.configList
+          }
+        }
+      });
+    } catch (error) {
+      message.error(error);
+    }
+  };
+};
+
+const saveConfig = (params) => {
+  return async dispatch => {
+    try {
+      const data = await saveJLMoneyConfig(params);
+
+      dispatch({
+        type: GET_CATEGORY_LIST_DATA,
+        payload: {
+          editMoneyModal: false,
+          listItemInfo: {}
+        }
+      });
+    } catch (error) {
+      message.error(error);
+    }
+  };
+};
+
+const closeSetMoney = () => ({
+  type: CANCEL_EDIT,
+  payload: {
+    editMoneyModal: false,
+    listItemInfo: {}
+  }
+});
+
+// 编辑教练
 const handleEditCategoryName = (params, cb) => {
   return dispatch => {
     editJL(params).then((msg) => {
@@ -68,7 +116,25 @@ const handleEditCategoryName = (params, cb) => {
     }).catch(error => message.error(error));
   };
 };
+// 新增教练
+const handleCreateCategory = (params, cb) => {
+  return dispatch => {
+    addJL(params).then(msg => {
+      message.success(msg);
+      dispatch({
+        type: HANDLE_CREATE,
+        payload: {
+          editorModalVisible: false,
+          currentEditCategoryData: {}
+        }
+      });
+      cb && cb()
+    }).catch(error => message.error(error));
+  };
+};
 
+
+//
 const handleOpenCreateModal = () => ({
   type: OPEN_CREATE_MODAL,
   payload: {
@@ -84,20 +150,6 @@ const handleCancelCreate = () => ({
   }
 });
 
-const handleCreateCategory = (params, cb) => {
-  return dispatch => {
-    addJL(params).then(msg => {
-      message.success(msg);
-      dispatch({
-        type: HANDLE_CREATE,
-        payload: {
-          createModalVisible: false
-        }
-      });
-      cb && cb()
-    }).catch(error => message.error(error));
-  };
-};
 
 const del = (id, cb) => {
 return dispatch => {
@@ -123,5 +175,8 @@ export {
   handleOpenCreateModal,
   handleCancelCreate,
   handleCreateCategory,
-  del
+  del,
+  showSetMoney,
+  closeSetMoney,
+  saveConfig
 };

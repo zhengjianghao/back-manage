@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Form, Input, Select, message, Checkbox } from 'antd';
+import PicUploader from 'component/pic-uploader/index'
 
-import { requestCategory,  } from 'service/category';
 
 const formItemLayout = {
   labelCol: {
@@ -23,7 +23,11 @@ const CheckboxGroup = Checkbox.Group;
 
 class CreateModal extends React.Component {
   state = {
-    parentCategory: []
+    parentCategory: [
+      { name: '标准场', id: 1 },
+      { name: '练习场', id: 2 },
+      { name: '培训室', id: 3 },
+    ]
   }
 
   componentDidMount() {
@@ -34,7 +38,12 @@ class CreateModal extends React.Component {
     const { onEditCallBack } = this.props
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        this.props.handleCreateCategory(values, onEditCallBack);
+        const { facility } = values
+        let _facility = ''
+        if (facility.length > 0) {
+          _facility = facility.join('')
+        }
+        this.props.handleCreateCategory({...values, facility: _facility}, onEditCallBack);
       }
     });
   }
@@ -89,7 +98,7 @@ class CreateModal extends React.Component {
             </Form.Item>
 
             <Form.Item {...formItemLayout} label="场地容量">
-              {getFieldDecorator('categoryName', {
+              {getFieldDecorator('capacity', {
                 rules: [{ required: true, message: '请输入场地容量' }],
               })(<Input />)}
             </Form.Item>
@@ -104,10 +113,29 @@ class CreateModal extends React.Component {
               )}
             </Form.Item> */}
             <Form.Item {...formItemLayout} label="场地设施">
-              {getFieldDecorator('cdss', {
+              {getFieldDecorator('facility', {
                 initialValue: [],
               })(
                 <CheckboxGroup options={plainOptions} />
+              )}
+            </Form.Item>
+            <Form.Item {...formItemLayout} label="场地图片">
+              {getFieldDecorator('coverImageList', {
+                rules: [{ required: true, message: '请上传场地图片！' }],
+                initialValue:[]
+              })(
+                <PicUploader
+                  value={[]}
+                  maxLength={10}
+                  withOriginSize={false}
+                  forBanner={true}
+                  // onChange={(value) => {
+                  //   this.changeHeader({
+                  //     type: 'picture',
+                  //     value: value[0]
+                  //   })
+                  // }}
+                />
               )}
             </Form.Item>
           </Form>

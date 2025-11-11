@@ -97,8 +97,6 @@ class ProductSearchForm extends React.Component {
 ProductSearchForm.propTypes = {
   form: PropTypes.object.isRequired,
   getProductList: PropTypes.func.isRequired,
-  pageSize: PropTypes.number.isRequired,
-  pageNum: PropTypes.number.isRequired,
 };
 
 export default Form.create()(ProductSearchForm);

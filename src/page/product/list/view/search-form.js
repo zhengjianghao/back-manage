@@ -14,10 +14,7 @@ class ProductSearchForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        let { productName } = values;
-        if (!productName) productName = undefined;
-        const { pageSize, pageNum } = this.props;
-        this.props.getProductList('search', pageSize, pageNum, productName);
+        this.props.getProductList({...values, size: 10, current: 1});
       }
     });
   }
@@ -35,7 +32,13 @@ class ProductSearchForm extends React.Component {
         layout="inline"
         onSubmit={this.handleSearch}
       >
-         <FormItem label="教练">
+        <FormItem label="教练名称">
+          {getFieldDecorator('coachName')(<Input />)}
+        </FormItem>
+        <FormItem label="学员名称">
+          {getFieldDecorator('studentName')(<Input />)}
+        </FormItem>
+         {/* <FormItem label="教练">
           {getFieldDecorator('jiaolian', {
             // initialValue: '',
           })(
@@ -57,7 +60,7 @@ class ProductSearchForm extends React.Component {
               })}
             </Select>
           )}
-        </FormItem>
+        </FormItem> */}
         <FormItem label="场地">
           {getFieldDecorator('cd')(
             <Select
@@ -79,15 +82,17 @@ class ProductSearchForm extends React.Component {
             </Select>
           )}
         </FormItem>
-        <FormItem label="场地">
+        <FormItem label="课程状态">
           {getFieldDecorator('status')(
             <Select
               style={{ width: 100 }}
               placeholder="选择状态"
             >
               <Option value={''}>全部</Option>
-              <Option value={0}>已预约</Option>
-              <Option value={1}>未预约</Option>
+              <Option value={1}>待上课</Option>
+              <Option value={2}>进行中</Option>
+              <Option value={3}>已完成</Option>
+              <Option value={4}>已取消</Option>
             </Select>
           )}
         </FormItem>

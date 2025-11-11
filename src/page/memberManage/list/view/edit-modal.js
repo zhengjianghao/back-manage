@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Form, Input, Select, Radio, Checkbox } from 'antd';
+import { Modal, Form, Input, Select, Radio, Checkbox, DatePicker } from 'antd';
+import PicUploader from 'component/pic-uploader/index'
 
 const formItemLayout = {
   labelCol: {
@@ -22,14 +23,24 @@ const RadioGroup = Radio.Group;
 class EditorModal extends React.Component {
 
   state = {
-    parentCategory: []
+    parentCategory: [
+      { name: '普通', id: 1 },
+      { name: '白银', id: 2 },
+      { name: '黄金', id: 3 },
+      { name: '钻石', id: 4 },
+    ]
   }
   handleOk = () => {
-    const { handleEditCategoryName, onEditCallBack } = this.props;
+    const { handleEditCategoryName, onEditCallBack,currentEditCategoryData, handleCreateCategory } = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        const avatar = values.avatar[0]
         // const { parentId, id } = currentEditCategoryData;
-        handleEditCategoryName(values, onEditCallBack);
+        if (currentEditCategoryData.id) {
+          handleEditCategoryName({...currentEditCategoryData, ...values, avatar }, onEditCallBack);
+        } else {
+          handleCreateCategory({...values, avatar}, onEditCallBack)
+        }
       }
     });
   }
@@ -67,7 +78,27 @@ class EditorModal extends React.Component {
                 rules: [{ required: true, message: '请输入会员名称' }],
               })(<Input />)}
             </Form.Item>
-            <Form.Item {...formItemLayout} label="会员级别" >
+            <Form.Item {...formItemLayout} label="会员头衔">
+              {getFieldDecorator('avatar', {
+                rules: [{ required: true, message: '请上传头像！' }],
+                initialValue:
+                  currentEditCategoryData.avatar ? ([currentEditCategoryData && currentEditCategoryData.avatar]) : []
+              })(
+                <PicUploader
+                  value={[currentEditCategoryData.avatar]}
+                  maxLength={1}
+                  withOriginSize={false}
+                  forBanner={true}
+                  // onChange={(value) => {
+                  //   this.changeHeader({
+                  //     type: 'picture',
+                  //     value: value[0]
+                  //   })
+                  // }}
+                />
+              )}
+            </Form.Item>
+            {/* <Form.Item {...formItemLayout} label="会员级别" >
               {getFieldDecorator('level', {
                 initialValue: currentEditCategoryData.level,
                 rules: [{
@@ -78,7 +109,7 @@ class EditorModal extends React.Component {
               >
                 {this.getSelectOptions(this.state.parentCategory)}
               </Select>)}
-            </Form.Item>
+            </Form.Item> */}
 
             <Form.Item {...formItemLayout} label="会员手机号">
               {getFieldDecorator('phone', {
@@ -96,24 +127,25 @@ class EditorModal extends React.Component {
                 </RadioGroup>
               )}
             </Form.Item>
-            <Form.Item {...formItemLayout} label="会员年龄">
-              {getFieldDecorator('age', {
-                initialValue: currentEditCategoryData.age,
+            <Form.Item {...formItemLayout} label="会员生日">
+              {getFieldDecorator('birthday', {
+                initialValue: currentEditCategoryData.birthday,
                 rules: [{ required: true, message: '请输入会员年龄' }],
-              })(<Input />)}
+              })(
+                <DatePicker
+                  size="default"
+                  format="YYYY-MM-DD"
+                  placeholder="请选择会员生日"
+                />
+              )}
             </Form.Item>
-            <Form.Item {...formItemLayout} label="会员职称">
+            {/* <Form.Item {...formItemLayout} label="会员职称">
               {getFieldDecorator('title', {
                 initialValue: currentEditCategoryData.title,
                 rules: [{ required: true, message: '请输入会员职称' }],
               })(<Input />)}
-            </Form.Item>
-            <Form.Item {...formItemLayout} label="会员专长">
-              {getFieldDecorator('speciality', {
-                initialValue: currentEditCategoryData.speciality,
-                rules: [{ required: true, message: '请输入会员专长' }],
-              })(<Input />)}
-            </Form.Item>
+            </Form.Item> */}
+{/* 
             <Form.Item {...formItemLayout} label="会员状态">
               {getFieldDecorator('status', {
                 initialValue: currentEditCategoryData.status || 1,
@@ -125,7 +157,7 @@ class EditorModal extends React.Component {
                   <Radio value={4}>离职</Radio>
                 </RadioGroup>
               )}
-            </Form.Item>
+            </Form.Item> */}
             {/* <Form.Item {...formItemLayout} label="会员设施">
               {getFieldDecorator('cdss', {
                 initialValue: currentEditCategoryData.facility ? currentEditCategoryData.facility.split(',') : [],

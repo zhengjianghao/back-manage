@@ -10,24 +10,11 @@ import SearchForm from './search-form';
 class ProductList extends React.Component {
   componentDidMount() {
     document.title = '课程管理';
-    this.props.getProductList('list', 10, 1);
+    const { searchParams } = this.props.productList;
+    this.props.getProductList(searchParams);
     this.props.getJiaoLianList()
   }
 
-  /**
-   * 设置商品上下架
-   * @param record 商品信息
-   */
-  handleSetProductStatus = (record) => {
-    const { id, status } = record;
-    let newStatus = 0;
-    if (status === 1) {
-      newStatus = 2;
-    } else {
-      newStatus = 1;
-    }
-    this.props.setProductSaleStatus(id, newStatus);
-  }
 
   render() {
     const {
@@ -83,27 +70,24 @@ class ProductList extends React.Component {
       render: (text, record) => {
         return (
           <div style={productStyle}>
-            <span>{text === 1 ? '在售' : '已下架'}</span>
-            <span>
-              <Button onClick={() => this.handleSetProductStatus(record)}>
-                {text === 1 ? '设置下架' : '设置上架'}
-              </Button>
-            </span>
+            
           </div>
         );
       }
-    }, {
-      title: '操作',
-      key: 'action',
-      width: 150,
-      render: (text, record) => (
-        <span>
-          <Link to={`${productRoute.detail}/${record.id}`}>查看详情</Link>
-          <span> | </span>
-          <Link to={`${productRoute.editor}/${record.id}`}>编辑</Link>
-        </span>
-      )
-    }];
+    }
+    // , {
+    //   title: '操作',
+    //   key: 'action',
+    //   width: 150,
+    //   render: (text, record) => (
+    //     <span>
+    //       <Link to={`${productRoute.detail}/${record.id}`}>查看详情</Link>
+    //       <span> | </span>
+    //       <Link to={`${productRoute.editor}/${record.id}`}>编辑</Link>
+    //     </span>
+    //   )
+    // }
+  ];
 
     const tableProps = {
       columns,
@@ -117,14 +101,6 @@ class ProductList extends React.Component {
       }
     };
 
-    const routeData = [{
-      key: '/product',
-      text: '商品'
-    }, {
-      key: productRoute.list,
-      text: '商品列表'
-    }];
-
     return (
       <PageWrapper>
         <SearchForm
@@ -133,11 +109,11 @@ class ProductList extends React.Component {
           pageNum={pageNum}
           jiaoLianList={jiaoLianList}
         />
-        <div style={{ marginBottom: 30 }}>
+        {/* <div style={{ marginBottom: 30 }}>
           <Link to={productRoute.editor}>
             <Button type='primary'>新增</Button>
           </Link>
-        </div>
+        </div> */}
         <Table {...tableProps} />
       </PageWrapper>
     );
@@ -147,7 +123,6 @@ class ProductList extends React.Component {
 ProductList.propTypes = {
   productList: PropTypes.object.isRequired,
   getProductList: PropTypes.func.isRequired,
-  setProductSaleStatus: PropTypes.func.isRequired,
 };
 
 export default ProductList; 

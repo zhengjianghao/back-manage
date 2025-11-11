@@ -72,7 +72,7 @@ class SiderMenu extends React.PureComponent {
           title={<span><Icon type="user" /><span>首页</span></span>}
         > */}
           <Menu.Item key="/">
-            <Link to="/"><Icon type="pie-chart" />首页</Link>
+            <Link to="/"><Icon type="home" />首页</Link>
           </Menu.Item>
         {/* </SubMenu> */}
 
@@ -97,7 +97,7 @@ class SiderMenu extends React.PureComponent {
           <Link to='/coach/list'><Icon type="pie-chart" />教练管理</Link>
         </Menu.Item>
         <Menu.Item key='/member/list'>
-          <Link to='/member/list'><Icon type="pie-chart" />会员管理</Link>
+          <Link to='/member/list'><Icon type="idcard" />会员管理</Link>
         </Menu.Item>
         <Menu.Item key='/data/list'>
           <Link to='/data/list'><Icon type="pie-chart" />数据统计</Link>
@@ -111,14 +111,14 @@ class SiderMenu extends React.PureComponent {
         </Menu.Item> */}
         {/* </SubMenu> */}
 
-        <SubMenu
+        {/* <SubMenu
           key='/user'
           title={<span><Icon type="team" /><span>用户</span></span>}
         >
           <Menu.Item key={userRoute.list}>
             <Link to={userRoute.list}><Icon type="pie-chart" />用户管理</Link>
           </Menu.Item>
-        </SubMenu>
+        </SubMenu> */}
 
       </Menu>
     );

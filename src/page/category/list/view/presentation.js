@@ -15,24 +15,13 @@ class CategoryList extends React.Component {
     this.getList()
   }
 
-  componentDidUpdate(prevProps) {
-    const { categoryId } = this.props.match.params;
-    const { categoryId: prevCategoryId } = prevProps.match.params;
-
-    if (categoryId !== prevCategoryId) {
-      this.props.getCategoryListData(categoryId);
-    }
-  }
-
   getColumn = () => {
 
   }
 
   getList = () => {
-    const { getCategoryListData, searchParams } = this.props;
-    
-
-    getCategoryListData(searchParams);
+    const { getCategoryListData, categoryList } = this.props;
+    getCategoryListData(categoryList.searchParams);
   }
 
 

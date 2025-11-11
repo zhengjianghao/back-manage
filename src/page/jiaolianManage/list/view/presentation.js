@@ -15,26 +15,19 @@ class JiaolianList extends React.Component {
     this.getList()
   }
 
-  componentDidUpdate(prevProps) {
-    const { categoryId } = this.props.match.params;
-    const { categoryId: prevCategoryId } = prevProps.match.params;
-
-    if (categoryId !== prevCategoryId) {
-      this.props.getCategoryListData(categoryId);
-    }
-  }
 
   getColumn = () => {
 
   }
 
   getList = () => {
-    const { getCategoryListData, searchParams } = this.props;
-    
-
-    getCategoryListData(searchParams);
+    const { getCategoryListData, jiaolianList } = this.props;
+    getCategoryListData(jiaolianList.searchParams);
   }
 
+  setMoney = (record) => {
+    this.props.showSetMoney(record)
+  }
 
 
   render() {
@@ -43,7 +36,9 @@ class JiaolianList extends React.Component {
       pageSize,
       pageNum,
       cangdiList,
-      total
+      total,
+      editMoneyModal,
+      listItemInfo
     } = this.props.jiaolianList;
 
     const { categoryId } = this.props.match.params;
@@ -54,24 +49,24 @@ class JiaolianList extends React.Component {
       key: 'name',
     }, {
       title: '性别',
-      dataIndex: 'gender',
-      key: 'gender',
+      dataIndex: 'genderDesc',
+      key: 'genderDesc',
     }, {
       title: '年龄',
       dataIndex: 'age',
       key: 'age',
     }, {
       title: '级别',
-      dataIndex: 'level',
-      key: 'level',
+      dataIndex: 'levelDesc',
+      key: 'levelDesc',
     }, {
       title: '专长',
       dataIndex: 'speciality',
       key: 'speciality',
     }, {
       title: '请假时间',
-      dataIndex: 'date',
-      key: 'date',
+      dataIndex: 'nextLeaveStartTime',
+      key: 'nextLeaveStartTime',
       render: (val, record) => {
         <div>
           {record.nextLeaveStartTime}-{record.nextLeaveEndTime}
@@ -84,11 +79,13 @@ class JiaolianList extends React.Component {
     }, {
       title: '操作',
       key: 'action',
-      width: 150,
+      // width: 150,
       render: (text, record) => (
         <span>
           <a onClick={() => this.props.handleOpenEditModal(record)}>编辑</a>
           <a style={{ marginLeft:'12px'}} onClick={() => this.props.del(record.id, this.getList)}>删除</a>
+          <Button style={{ marginLeft:'12px'}} type="primary" onClick={this.setMoney.bind(this, record)}>课时提成</Button>
+          <Button style={{ marginLeft:'12px'}}>请假</Button>
         </span>
       )
     }];
@@ -118,20 +115,27 @@ class JiaolianList extends React.Component {
           <Button type='primary' onClick={this.props.handleOpenCreateModal}>新增</Button>
         </div>
         <Table {...tableProps} />
-        <EditorModal
-          editorModalVisible={editorModalVisible}
-          currentEditCategoryData={currentEditCategoryData}
-          handleCancelEdit={this.props.handleCancelEdit}
-          handleEditCategoryName={this.props.handleEditCategoryName}
-          onEditCallBack={this.getList}
-        />
-        <CreateModal
-          parentId={categoryId}
-          visible={createModalVisible}
-          handleCancelCreate={this.props.handleCancelCreate}
-          onEditCallBack={this.getList}
-          handleCreateCategory={this.props.handleCreateCategory}
-        />
+        {
+          editorModalVisible && 
+          <EditorModal
+            editorModalVisible={editorModalVisible}
+            currentEditCategoryData={currentEditCategoryData}
+            handleCancelEdit={this.props.handleCancelEdit}
+            handleEditCategoryName={this.props.handleEditCategoryName}
+            handleCreateCategory={this.props.handleCreateCategory}
+            onEditCallBack={this.getList}
+          />
+        }
+        {
+          editMoneyModal &&
+          <CreateModal
+            visible={editMoneyModal}
+            baseDate={listItemInfo}
+            handleCancelCreate={this.props.closeSetMoney}
+            // onEditCallBack={this.getList}
+            handleCreateCategory={this.props.saveConfig}
+          />
+        }
       </PageWrapper>
     );
   }

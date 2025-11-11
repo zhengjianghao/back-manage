@@ -12,7 +12,15 @@ const initState = {
   }, {
     name: '12',
     id: 33
-  }]
+  }],
+  searchParams: {
+    size: 10,
+    current: 1,
+    studentName: '',
+    coachName: '',
+    type: '',
+    status: ''
+  }
 };
 
 const reducer = (state = initState, action) => {
