@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { message, notification } from 'antd';
+import { emitUserDataEvent } from 'util/custom-event';
+import { saveUserDataStorage, removeUserDataStorage } from 'util/storege';
 
 const onRequestSuccess = (config) => {
   config.timeout = 100000;
@@ -12,7 +14,7 @@ const onRequestSuccess = (config) => {
   if (_token) {
     config.headers.common['amulong-token'] = _token;
   }
-  config.headers['content-type'] = 'application/json;charset=UTF-8'
+  config.headers['content-type'] = config.headers['content-type'] || 'application/json;charset=UTF-8'
   // if(config.url.indexOf('http') == -1) {
   //     config.url = Util.getHost() + config.url;
   // }
@@ -29,8 +31,11 @@ const onResponseSuccess = (res) => {
     axios.defaults.headers.common['amulong-token'] = _token;
     localStorage.setItem('token', _token);
   }
-  if (res.data.responseCode === 10212 && res.data.status === false) {
-    location.href = `${path}/kaweb/login.html?redirectUrl=${location.href}`;
+  if (res.data.code == 401) {
+    message.error('登录失效，请重新登录');
+    removeUserDataStorage();
+    emitUserDataEvent('logout');
+    // location.href = `${path}/kaweb/login.html?redirectUrl=${location.href}`;
   } else {
     if (res.data.status === false) {
       notification['error']({

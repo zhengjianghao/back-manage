@@ -73,5 +73,5 @@ const post = Ajax.post
 
 export {
   get,
-  post
+  post,
 };

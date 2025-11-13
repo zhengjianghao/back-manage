@@ -8,6 +8,7 @@ import EditorModal from './edit-modal';
 import CreateModal from './create-modal';
 import PageWrapper from 'component/page-wrapper';
 import SearchForm from './search-form';
+import LeaveModal from './leave-modal';
 
 class JiaolianList extends React.Component {
   componentDidMount() {
@@ -29,6 +30,9 @@ class JiaolianList extends React.Component {
     this.props.showSetMoney(record)
   }
 
+  setLeave = (record) => {
+    this.props.handleShowLeaveModal(record)
+  }
 
   render() {
     const {
@@ -38,10 +42,11 @@ class JiaolianList extends React.Component {
       cangdiList,
       total,
       editMoneyModal,
-      listItemInfo
+      listItemInfo,
+      showLeaveModal,
+      searchParams
     } = this.props.jiaolianList;
 
-    const { categoryId } = this.props.match.params;
 
     const columns = [{
       title: '名称',
@@ -81,12 +86,12 @@ class JiaolianList extends React.Component {
       key: 'action',
       // width: 150,
       render: (text, record) => (
-        <span>
+        <div>
           <a onClick={() => this.props.handleOpenEditModal(record)}>编辑</a>
           <a style={{ marginLeft:'12px'}} onClick={() => this.props.del(record.id, this.getList)}>删除</a>
           <Button style={{ marginLeft:'12px'}} type="primary" onClick={this.setMoney.bind(this, record)}>课时提成</Button>
-          <Button style={{ marginLeft:'12px'}}>请假</Button>
-        </span>
+          <Button onClick={this.setLeave.bind(this, record)} style={{ marginLeft:'12px'}}>请假</Button>
+        </div>
       )
     }];
 
@@ -98,7 +103,7 @@ class JiaolianList extends React.Component {
         pageSize,
         current: pageNum,
         total,
-        onChange: (page, pageSize) => this.props.getCategoryListData(pageSize, page)
+        onChange: (page, pageSize) => this.props.getCategoryListData({...searchParams, size: pageSize, current: page})
       }
     };
 
@@ -135,6 +140,17 @@ class JiaolianList extends React.Component {
             // onEditCallBack={this.getList}
             handleCreateCategory={this.props.saveConfig}
           />
+        }
+        {
+          showLeaveModal &&
+          <LeaveModal
+            visible={showLeaveModal}
+            baseDate={listItemInfo}
+            currentEditCategoryData={currentEditCategoryData}
+            handleCancelCreate={this.props.closeLeaveModal}
+            // onEditCallBack={this.getList}
+            handleCreateCategory={this.props.saveLeave}
+          /> 
         }
       </PageWrapper>
     );

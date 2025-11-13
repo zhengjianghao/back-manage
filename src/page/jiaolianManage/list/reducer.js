@@ -9,35 +9,11 @@ import {
 } from './actionTypes';
 
 const initState = {
-  jiaolianListData: [
-   {
-    "createUserId": 0,
-    "createUserName": "",
-    "createAt": "",
-    "updateUserId": 0,
-    "updateUserName": "",
-    "updateAt": "",
-    "id": 0,
-    "name": "",
-    "type": 0,
-    "typeDesc": "",
-    "address": "",
-    "capacity": 0,
-    "facility": "",
-    "status": 0,
-    "statusDesc": "",
-    "description": "",
-    "coverImageList": [],
-    "coverImageUrlList": []
-  }
-  ],
+  jiaolianListData: [],
   editorModalVisible: false,
   currentEditCategoryData: {},
   createModalVisible: false,
-  cangdiList: [{
-    name:'123',
-    id:'1'
-  }],
+  cangdiList: [],
   searchParams: {
     size: 10,
     current: 1,
@@ -47,7 +23,9 @@ const initState = {
   },
   total: '',
   listItemInfo: {}, // 当个教练信息
-  editMoneyModal: false
+  editMoneyModal: false,
+  showLeaveModal: false,
+  leaveList: []
 };
 
 const reducer = (state = initState, action) => {

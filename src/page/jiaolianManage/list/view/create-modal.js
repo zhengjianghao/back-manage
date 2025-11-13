@@ -25,10 +25,18 @@ class CreateModal extends React.Component {
   }
 
   handleOk = () => {
-    const { onEditCallBack } = this.props
+    const { onEditCallBack, baseDate,  } = this.props
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        this.props.handleCreateCategory(values, onEditCallBack);
+        const configList = baseDate.configList.map((item, index) => {
+          return {
+            ...item,
+            baseFee: values['baseFee'+index],
+            commissionType: values['commissionType'+index],
+            commissionValue: values['commissionValue'+index]
+          }
+        })
+        this.props.handleCreateCategory({ configList }, onEditCallBack);
       }
     });
   }
@@ -55,6 +63,7 @@ class CreateModal extends React.Component {
     const { visible, form, baseDate = {} } = this.props;
     const { getFieldDecorator, getFieldValue, getFieldsValue } = form;
     const typ = getFieldValue('commissionType')
+    const formVals = getFieldsValue(['commissionType0', 'commissionType1', 'commissionType2'])
     console.log(getFieldsValue(['commissionType','baseFee' ]))
     return (
         <Modal
@@ -65,19 +74,19 @@ class CreateModal extends React.Component {
         >
           <Form>
             {
-              [1, 2, 3].map(item => {
+              baseDate.configList.map((item, index) => {
                 return (
-                  <div key={item} className={style.itembox}>
+                  <div key={item.id} className={style.itembox}>
                     <h2 className={style.title}>高级教练课</h2>
                     <Form.Item {...formItemLayout} label="基础课时费">
-                      {getFieldDecorator('baseFee' + item, {
-                        initialValue: baseDate.baseFee,
-                        rules: [{ required: true, message: '请输入场地名称' }],
+                      {getFieldDecorator('baseFee' + index, {
+                        initialValue: item.baseFee,
+                        rules: [{ required: true, message: '请输基础课时费' }],
                       })(<Input />)}
                     </Form.Item>
                     <Form.Item {...formItemLayout} label="提成方式">
-                      {getFieldDecorator('commissionType' + item, {
-                        initialValue: baseDate.commissionType || 1,
+                      {getFieldDecorator('commissionType' + index, {
+                        initialValue: item.commissionType,
                       })(
                         <RadioGroup>
                           <Radio value={1}>百分比</Radio>
@@ -86,10 +95,10 @@ class CreateModal extends React.Component {
                       )}
                     </Form.Item>
                     <Form.Item {...formItemLayout} label="提成数值">
-                      {getFieldDecorator('commissionValue' + item, {
-                        initialValue: baseDate.commissionValue || '',
+                      {getFieldDecorator('commissionValue' + index, {
+                        initialValue: item.commissionValue || '',
                         rules: [{ required: true, message: '请输入提成数值' }],
-                      })(<Input addonAfter={typ == 1 ? '%' : ''} />)}
+                      })(<Input addonAfter={formVals['commissionType' + index] == 1 ? '%' : ''} />)}
                     </Form.Item>
                   </div>
                 )

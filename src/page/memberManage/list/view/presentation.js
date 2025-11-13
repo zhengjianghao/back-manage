@@ -21,8 +21,6 @@ class MemberList extends React.Component {
 
   getList = () => {
     const { getCategoryListData, memberList } = this.props;
-    
-
     getCategoryListData(memberList.searchParams);
   }
 
@@ -34,7 +32,9 @@ class MemberList extends React.Component {
       pageSize,
       pageNum,
       cangdiList,
-      total
+      total,
+      searchParams,
+      chargeRecordList
     } = this.props.memberList;
 
     const { categoryId } = this.props.match.params;
@@ -92,6 +92,7 @@ class MemberList extends React.Component {
         <span>
           <a onClick={() => this.props.handleOpenEditModal(record)}>编辑</a>
           <a style={{ marginLeft:'12px'}} onClick={() => this.props.del(record.id, this.getList)}>删除</a>
+          <a style={{ marginLeft:'12px'}} onClick={() => this.props.charge(record)}>充值</a>
         </span>
       )
     }];
@@ -104,7 +105,7 @@ class MemberList extends React.Component {
         pageSize,
         current: pageNum,
         total,
-        onChange: (page, pageSize) => this.props.getCategoryListData(pageSize, page)
+        onChange: (page, pageSize) => this.props.getCategoryListData({...searchParams, size: pageSize, current: page})
       }
     };
 
@@ -132,13 +133,16 @@ class MemberList extends React.Component {
             onEditCallBack={this.getList}
           />
         }
-        <CreateModal
-          parentId={categoryId}
-          visible={createModalVisible}
-          handleCancelCreate={this.props.handleCancelCreate}
-          onEditCallBack={this.getList}
-          handleCreateCategory={this.props.handleCreateCategory}
-        />
+        {
+          createModalVisible && <CreateModal
+            // chargeRecordList={chargeRecordList}
+            visible={createModalVisible}
+            memberInfo={currentEditCategoryData}
+            handleCancelCreate={this.props.handleCancelCreate}
+            // onEditCallBack={this.getList}
+            handleCreateCategory={this.props.saveRecord}
+          />
+        }
       </PageWrapper>
     );
   }
@@ -152,8 +156,6 @@ MemberList.propTypes = {
   handleEditCategoryName: PropTypes.func.isRequired,
   handleCancelEdit: PropTypes.func.isRequired,
   handleOpenCreateModal: PropTypes.func.isRequired,
-  handleCancelCreate: PropTypes.func.isRequired,
-  handleCreateCategory: PropTypes.func.isRequired,
 };
 
 export default MemberList; 

@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Form, Input, Select, Radio, Checkbox, DatePicker } from 'antd';
-import PicUploader from 'component/pic-uploader/index'
+import PicUploader from 'component/pic-uploader/index';
+import moment from 'moment'
+moment.locale('zh-cn')
 
 const formItemLayout = {
   labelCol: {
@@ -35,11 +37,12 @@ class EditorModal extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         const avatar = values.avatar[0]
+        const birthday = moment(values.birthday).valueOf()
         // const { parentId, id } = currentEditCategoryData;
         if (currentEditCategoryData.id) {
-          handleEditCategoryName({...currentEditCategoryData, ...values, avatar }, onEditCallBack);
+          handleEditCategoryName({...currentEditCategoryData, ...values, avatar, birthday }, onEditCallBack);
         } else {
-          handleCreateCategory({...values, avatar}, onEditCallBack)
+          handleCreateCategory({...values, avatar, birthday}, onEditCallBack)
         }
       }
     });
@@ -78,7 +81,7 @@ class EditorModal extends React.Component {
                 rules: [{ required: true, message: '请输入会员名称' }],
               })(<Input />)}
             </Form.Item>
-            <Form.Item {...formItemLayout} label="会员头衔">
+            <Form.Item {...formItemLayout} label="会员头像">
               {getFieldDecorator('avatar', {
                 rules: [{ required: true, message: '请上传头像！' }],
                 initialValue:
@@ -119,7 +122,7 @@ class EditorModal extends React.Component {
             </Form.Item>
             <Form.Item {...formItemLayout} label="会员性别">
               {getFieldDecorator('gender', {
-                initialValue: currentEditCategoryData.phone || 1,
+                initialValue: currentEditCategoryData.gender || 1,
               })(
                 <RadioGroup>
                   <Radio value={1}>男</Radio>
@@ -129,8 +132,8 @@ class EditorModal extends React.Component {
             </Form.Item>
             <Form.Item {...formItemLayout} label="会员生日">
               {getFieldDecorator('birthday', {
-                initialValue: currentEditCategoryData.birthday,
-                rules: [{ required: true, message: '请输入会员年龄' }],
+                initialValue: currentEditCategoryData.birthday ? moment(currentEditCategoryData.birthday) : undefined,
+                rules: [{ required: true, message: '请输入会员生日' }],
               })(
                 <DatePicker
                   size="default"

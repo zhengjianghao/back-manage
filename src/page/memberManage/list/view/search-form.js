@@ -17,7 +17,7 @@ class ProductSearchForm extends React.Component {
         // let { productName } = values;
         // if (!productName) productName = undefined;
         // const { pageSize, pageNum } = this.props;
-        this.props.getProductList({...values});
+        this.props.getProductList({...values, size: 10, current: 1 });
       }
     });
   }
@@ -35,8 +35,34 @@ class ProductSearchForm extends React.Component {
         layout="inline"
         onSubmit={this.handleSearch}
       >
-        <FormItem label="会员名称">
-          {getFieldDecorator('cd')(
+        <FormItem label="会员名称" >
+          {getFieldDecorator('name', {
+            initialValue: '',
+          })(<Input placeholder="请输入会员名称" />)}
+        </FormItem>
+        <FormItem label="会员手机号" >
+          {getFieldDecorator('phone', {
+            initialValue: '',
+          })(<Input placeholder="请输入会员手机号" />)}
+        </FormItem>
+        <FormItem label="会员性别">
+          {getFieldDecorator('gender', {
+            initialValue: '',
+          })(
+            <Select
+              style={{ width: 150 }}
+              placeholder="选择类型"
+            >
+              <Option value={''}>全部</Option>
+              <Option value={1}>男</Option>
+              <Option value={2}>女</Option>
+            </Select>
+          )}
+        </FormItem>
+        {/* <FormItem label="会员名称">
+          {getFieldDecorator('name', {
+            initialValue: '',
+          })(
             <Select
               style={{ width: 150 }}
               showSearch
@@ -55,9 +81,11 @@ class ProductSearchForm extends React.Component {
               })}
             </Select>
           )}
-        </FormItem>
-        <FormItem label="会员级别">
-          {getFieldDecorator('type')(
+        </FormItem> */}
+        {/* <FormItem label="会员级别">
+          {getFieldDecorator('type', {
+            initialValue: '',
+          })(
             <Select
               style={{ width: 150 }}
               placeholder="选择类型"
@@ -70,7 +98,9 @@ class ProductSearchForm extends React.Component {
           )}
         </FormItem>
         <FormItem label="会员状态">
-          {getFieldDecorator('status')(
+          {getFieldDecorator('status', {
+            initialValue: '',
+          })(
             <Select
               style={{ width: 150 }}
               placeholder="会员状态"
@@ -82,7 +112,7 @@ class ProductSearchForm extends React.Component {
               <Option value={4}>离职</Option>
             </Select>
           )}
-        </FormItem>
+        </FormItem> */}
         <FormItem>
           <Button type="primary" htmlType="submit">搜索</Button>
           {/* <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>

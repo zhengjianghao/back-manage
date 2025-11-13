@@ -9,43 +9,7 @@ import {
 } from './actionTypes';
 
 const initState = {
-  dataListData: [
-   {
-    "createUserId": 0,
-    "createUserName": "",
-    "createAt": "",
-    "updateUserId": 0,
-    "updateUserName": "",
-    "updateAt": "",
-    "id": 0,
-    "name": "",
-    "type": 0,
-    "typeDesc": "",
-    "address": "",
-    "capacity": 0,
-    "facility": "",
-    "status": 0,
-    "statusDesc": "",
-    "description": "",
-    "coverImageList": [],
-    "coverImageUrlList": []
-  }
-  ],
-  editorModalVisible: false,
-  currentEditCategoryData: {},
-  createModalVisible: false,
-  cangdiList: [{
-    name:'123',
-    id:'1'
-  }],
-  searchParams: {
-    size: 10,
-    current: 1,
-    name: '',
-    type: '',
-    status: ''
-  },
-  total: ''
+  allData: {}
 };
 
 const reducer = (state = initState, action) => {

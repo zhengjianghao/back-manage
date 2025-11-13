@@ -1,10 +1,22 @@
-import { get } from 'util/request';
+import { post } from 'util/request';
+import APIS from 'api/index';
 
 function requestHomeStatistic() {
-  const url = '/manage/statistic/base_count.do';
-  return get(url);
+  return post(APIS.GET_HOME_DATA);
+}
+function requestHomeBirth() {
+  return post(APIS.GET_HOME_BIRTHDAY);
+}
+function requestHomeCD() {
+  return post(APIS.GET_HOME_CD_STATUS);
+}
+function requestHomeKC(params) {
+  return post(APIS.GET_HOME_KC, params);
 }
 
 export {
-  requestHomeStatistic
+  requestHomeStatistic,
+  requestHomeBirth,
+  requestHomeCD,
+  requestHomeKC
 };

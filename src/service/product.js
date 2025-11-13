@@ -1,4 +1,4 @@
-import { get, post } from 'util/request';
+import { get, post, postForm } from 'util/request';
 import APIS from 'api/index';
 
 /**
@@ -40,13 +40,31 @@ function requestProductDetail(productId) {
  * @param {object} data 表单数据
  */
 function requestSaveProduct(data) {
-  const url = '/manage/product/save.do';
-  return post(url, data);
+  return post(APIS.GET_COURSE_PAGE, data);
+}
+
+function requestCoursePage(params) {
+  return post(APIS.GET_COURSE_PAGE, params);
+}
+
+function addCourseReq(params) {
+  return post(APIS.ADD_COURSE, params);
+}
+
+function delCourseReq(params) {
+  return post(APIS.DEL_COURSE + '/' +  params.id);
+}
+function updateCourseReq(params) {
+  return post(APIS.UPDATE_COURSE, params);
 }
 
 export {
   requestProductList,
   requestSetProductSaleStatus,
   requestProductDetail,
-  requestSaveProduct
+  requestSaveProduct,
+  requestCoursePage,
+  addCourseReq,
+  delCourseReq,
+  updateCourseReq
 };

@@ -10,118 +10,35 @@ import {
   HANDLE_CREATE,
 } from './actionTypes';
 
-import { getJLList, editJL, addJL, delJL } from 'service/category';
+import { getDataInfo } from 'service/category';
 
-const getCategoryListData = (params) => {
-
-
+const getData = (params, cb) => {
   return async dispatch => {
     try {
-      const data = await getJLList(params);
-
+      const { data } = await getDataInfo(params);
+      const chartData = {
+        xData: [],
+        data: []
+      }
+      data.coachCompleteCourseStatisticList.map(item => {
+        chartData.xData.push(item.name)
+        chartData.data.push(item.completeCourseCount)
+      })
       dispatch({
         type: GET_CATEGORY_LIST_DATA,
         payload: {
-          dataListData: data.records,
-          searchParmas: {
-            ...params,
-            size: data.size,
-            current: data.current,
-          },
-          total: data.total
+          allData: data,
         }
       });
+      cb && cb(chartData)
     } catch (error) {
       message.error(error);
     }
   };
 };
 
-const handleOpenEditModal = (record) => ({
-  type: OPEN_EDITOR,
-  payload: {
-    editorModalVisible: true,
-    currentEditCategoryData: record
-  }
-});
 
-const handleCancelEdit = () => ({
-  type: CANCEL_EDIT,
-  payload: {
-    editorModalVisible: false,
-    currentEditCategoryData: {}
-  }
-});
-
-const handleEditCategoryName = (params, cb) => {
-  return dispatch => {
-    editJL(params).then((msg) => {
-      message.success(msg);
-      dispatch({
-        type: HANDLE_EDIT,
-        payload: {
-          editorModalVisible: false,
-          currentEditCategoryData: {}
-        }
-      });
-      cb && cb()
-    }).catch(error => message.error(error));
-  };
-};
-
-const handleOpenCreateModal = () => ({
-  type: OPEN_CREATE_MODAL,
-  payload: {
-    editorModalVisible: true,
-    currentEditCategoryData: {}
-  }
-});
-
-const handleCancelCreate = () => ({
-  type: CANCEL_CREATE,
-  payload: {
-    createModalVisible: false
-  }
-});
-
-const handleCreateCategory = (params, cb) => {
-  return dispatch => {
-    addJL(params).then(msg => {
-      message.success(msg);
-      dispatch({
-        type: HANDLE_CREATE,
-        payload: {
-          createModalVisible: false
-        }
-      });
-      cb && cb()
-    }).catch(error => message.error(error));
-  };
-};
-
-const del = (id, cb) => {
-return dispatch => {
-    delJL(id).then((msg) => {
-      message.success(msg);
-      // dispatch({
-      //   type: HANDLE_EDIT,
-      //   payload: {
-      //     editorModalVisible: false,
-      //     currentEditCategoryData: {}
-      //   }
-      // });
-      cb && cb()
-    }).catch(error => message.error(error));
-  };
-}
 
 export {
-  getCategoryListData,
-  handleEditCategoryName,
-  handleOpenEditModal,
-  handleCancelEdit,
-  handleOpenCreateModal,
-  handleCancelCreate,
-  handleCreateCategory,
-  del
+  getData
 };

@@ -2,8 +2,8 @@ import { GET_PRODUCT_LIST_DATA } from './actionTypes';
 
 const initState = {
   productListData: [],
-  pageSize: 0,
-  pageNum: 0,
+  // pageSize: 0,
+  // pageNum: 0,
   listType: 'list',
   productName: '',
   jiaoLianList: [{
@@ -20,7 +20,20 @@ const initState = {
     coachName: '',
     type: '',
     status: ''
-  }
+  },
+  total: 0,
+  total2: 0,
+  searchParams2: {
+    size: 10,
+    current: 1,
+    studentName: '',
+    coachName: '',
+    type: '',
+    status: ''
+  },
+  courList: [],
+  courseTypeList: [],
+  currentEditCategoryData: {}
 };
 
 const reducer = (state = initState, action) => {

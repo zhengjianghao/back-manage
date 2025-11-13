@@ -84,6 +84,47 @@ function delMember(id) {
   return post(url);
 }
 
+function getChareRecord(id) {
+  return post(APIS.GET_RECORD_LIST, {
+    studentId: id,
+    current: 1,
+    size: 30
+  });
+}
+
+function addRecord(params) {
+  return post(APIS.ADD_RECORD, params);
+}
+
+function editRecord({id, ...other}) {
+  const url = `/admin/student/charge/${id}/update`;
+  return post(url, {
+    ...other
+  });
+}
+
+function getLeave(params) {
+  const url = `/admin/coach/leave/page`;
+  return post(url, {
+    ...params
+  });
+}
+
+function addLeave(params) {
+  const url = `/admin/coach/leave/add`;
+  return post(url, {
+    ...params
+  });
+}
+
+function getDataInfo(params) {
+  const url = `/admin/statistics`;
+  return post(url, {
+    ...params
+  });
+}
+
+
 
 
 export {
@@ -100,5 +141,11 @@ export {
   editMember,
   delMember,
   getJLMoneyConfig,
-  saveJLMoneyConfig
+  saveJLMoneyConfig,
+  getChareRecord,
+  addRecord,
+  editRecord,
+  getLeave,
+  addLeave,
+  getDataInfo
 };

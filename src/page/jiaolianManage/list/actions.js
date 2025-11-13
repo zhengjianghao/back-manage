@@ -10,7 +10,7 @@ import {
   HANDLE_CREATE,
 } from './actionTypes';
 
-import { getJLList, editJL, addJL, delJL, getJLMoneyConfig } from 'service/category';
+import { getJLList, editJL, addJL, delJL, getJLMoneyConfig, saveJLMoneyConfig, getLeave, addLeave } from 'service/category';
 
 const getCategoryListData = (params) => {
 
@@ -56,7 +56,7 @@ const handleCancelEdit = () => ({
 const showSetMoney = (val) => {
   return async dispatch => {
     try {
-      // const data = await getJLMoneyConfig(val.id);
+      const data = await getJLMoneyConfig(val.id);
 
       dispatch({
         type: GET_CATEGORY_LIST_DATA,
@@ -64,7 +64,8 @@ const showSetMoney = (val) => {
           editMoneyModal: true,
           listItemInfo: {
             ...val,
-            // configList: data.configList
+            configList: data.configList
+            // configList: [1,2,3]
           }
         }
       });
@@ -167,6 +168,57 @@ return dispatch => {
   };
 }
 
+const getLeaveList = (params) => {
+
+
+  return async dispatch => {
+    try {
+      const {data} = await getLeave(params);
+
+      dispatch({
+        type: GET_CATEGORY_LIST_DATA,
+        payload: {
+          leaveList: data.records,
+        }
+      });
+    } catch (error) {
+      message.error(error);
+    }
+  };
+};
+
+const handleShowLeaveModal = (record) => ({
+  type: OPEN_EDITOR,
+  payload: {
+    showLeaveModal: true,
+    currentEditCategoryData: record
+  }
+});
+
+const closeLeaveModal = () => ({
+  type: CANCEL_CREATE,
+  payload: {
+    showLeaveModal: false
+  }
+});
+
+const saveLeave = (params, cb) => {
+  return dispatch => {
+    addLeave(params).then(msg => {
+      message.success(msg);
+      dispatch({
+        type: HANDLE_CREATE,
+        payload: {
+          showLeaveModal: false,
+          currentEditCategoryData: {}
+        }
+      });
+      cb && cb()
+    }).catch(error => message.error(error));
+  };
+};
+
+
 export {
   getCategoryListData,
   handleEditCategoryName,
@@ -178,5 +230,9 @@ export {
   del,
   showSetMoney,
   closeSetMoney,
-  saveConfig
+  saveConfig,
+  closeLeaveModal,
+  saveLeave,
+  getLeaveList,
+  handleShowLeaveModal
 };

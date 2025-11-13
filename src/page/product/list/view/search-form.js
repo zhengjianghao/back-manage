@@ -25,7 +25,7 @@ class ProductSearchForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { jiaoLianList = [] } = this.props
+    const { courList = [] } = this.props
     return (
       <Form
         className="ant-advanced-search-form"
@@ -62,7 +62,7 @@ class ProductSearchForm extends React.Component {
           )}
         </FormItem> */}
         <FormItem label="场地">
-          {getFieldDecorator('cd')(
+          {getFieldDecorator('courtId')(
             <Select
               style={{ width: 150 }}
               showSearch
@@ -72,7 +72,7 @@ class ProductSearchForm extends React.Component {
                 return option.props.children.indexOf(input) != -1;
               }}
             >
-              {(jiaoLianList && jiaoLianList).map((item) => {
+              {(courList && courList).map((item) => {
                 return (
                   <Option
                     value={item.id}
@@ -110,9 +110,7 @@ class ProductSearchForm extends React.Component {
 ProductSearchForm.propTypes = {
   form: PropTypes.object.isRequired,
   getProductList: PropTypes.func.isRequired,
-  pageSize: PropTypes.number.isRequired,
-  pageNum: PropTypes.number.isRequired,
-  jiaoLianList: PropTypes.array
+  courList: PropTypes.array
 };
 
 export default Form.create()(ProductSearchForm);

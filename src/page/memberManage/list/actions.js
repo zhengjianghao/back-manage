@@ -10,7 +10,7 @@ import {
   HANDLE_CREATE,
 } from './actionTypes';
 
-import { getMemberList, editMember, addMember, delMember } from 'service/category';
+import { getMemberList, editMember, addMember, delMember, getChareRecord, addRecord } from 'service/category';
 
 const getCategoryListData = (params) => {
 
@@ -84,6 +84,22 @@ const handleCancelCreate = () => ({
   }
 });
 
+const saveRecord = (params, cb) => {
+  return dispatch => {
+    addRecord(params).then(msg => {
+      dispatch({
+        type: HANDLE_CREATE,
+        payload: {
+          createModalVisible: false,
+          currentEditCategoryData: {}
+        }
+      });
+      cb && cb()
+    }).catch(error => message.error(error));
+  };
+};
+
+
 const handleCreateCategory = (params, cb) => {
   return dispatch => {
     addMember(params).then(msg => {
@@ -92,7 +108,7 @@ const handleCreateCategory = (params, cb) => {
         type: HANDLE_CREATE,
         payload: {
           editorModalVisible: false,
-          currentEditCategoryData: {}
+          chargeRecordList: []
         }
       });
       cb && cb()
@@ -116,6 +132,28 @@ return dispatch => {
   };
 }
 
+// const charge = (record) => ({
+//   type: HANDLE_EDIT,
+//   payload: {
+//     createModalVisible: false,
+//     currentEditCategoryData: record,
+//   }
+// });
+
+const charge = (record, cb) => {
+return dispatch => {
+    dispatch({
+      type: HANDLE_EDIT,
+      payload: {
+        currentEditCategoryData: record,
+        createModalVisible: true,
+      }
+    });
+    // getChareRecord(record.id).then((res) => {
+    // }).catch(error => message.error(error));
+  };
+}
+
 export {
   getCategoryListData,
   handleEditCategoryName,
@@ -124,5 +162,7 @@ export {
   handleOpenCreateModal,
   handleCancelCreate,
   handleCreateCategory,
-  del
+  del,
+  charge,
+  saveRecord
 };

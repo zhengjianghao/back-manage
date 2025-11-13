@@ -1,8 +1,12 @@
 import { GET_STATISTIC, GET_JLLIST } from './actionTypes';
 
 const initialState = {
-  statisticData: {},
-  jiaoLianList: []
+  homeData: {},
+  birthData: {},
+  cdList: [],
+  kcList: [],
+  showBirthModal: false,
+  birthList: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,12 +14,12 @@ const reducer = (state = initialState, action) => {
     case GET_STATISTIC:
       return {
         ...state,
-        statisticData: action.statisticData
+        ...action.payload
       };
     case GET_JLLIST:
       return {
         ...state,
-        jiaoLianList: action.jiaoLianList
+        ...action.payload
       };
     default:
       return state;

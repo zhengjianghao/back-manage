@@ -15,7 +15,7 @@ class ProductList extends React.Component {
 
   render() {
     const {
-      orderListData, pageSize, pageNum, total, orderNum
+      orderListData, pageSize, pageNum, total, searchParams
     } = this.props.orderList;
 
     const columns = [{
@@ -59,7 +59,7 @@ class ProductList extends React.Component {
         current: pageNum,
         total,
         hideOnSinglePage: true,
-        onChange: (page, pageSize) => this.props.getOrderList(pageSize, page, orderNum)
+        onChange: (page, pageSize) => this.props.getOrderList({...searchParams, size: pageSize, current: page})
       }
     };
 

@@ -10,26 +10,7 @@ import {
 
 const initState = {
   memberListData: [
-   {
-    "createUserId": 0,
-    "createUserName": "",
-    "createAt": "",
-    "updateUserId": 0,
-    "updateUserName": "",
-    "updateAt": "",
-    "id": 0,
-    "name": "",
-    "type": 0,
-    "typeDesc": "",
-    "address": "",
-    "capacity": 0,
-    "facility": "",
-    "status": 0,
-    "statusDesc": "",
-    "description": "",
-    "coverImageList": [],
-    "coverImageUrlList": []
-  }
+
   ],
   editorModalVisible: false,
   currentEditCategoryData: {},
@@ -42,8 +23,8 @@ const initState = {
     size: 10,
     current: 1,
     name: '',
-    type: '',
-    status: ''
+    phone: '',
+    gender: ''
   },
   total: ''
 };

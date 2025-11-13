@@ -1,0 +1,86 @@
+.cardText {
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+}
+.weekBox {
+  width: 100%;
+  border: solid 1px #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  background-color: white;
+  .titleBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .weekBoxTitle {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .kcBox {
+    .weekdayItemBox {
+      display: flex;
+      align-items: center;
+      margin-top: 18px;
+      .weekday {
+        font-size: 18px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(231,245,234);
+        border-radius: 8px;
+        padding: 6px 10px;
+      }
+      .weekdayKc {
+        font-size: 14px;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(122, 199, 136);
+        border-radius: 4px;
+        padding: 2px 8px;
+        margin-left: 10px;
+      }
+    }
+  }
+  .cdBox {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    .cdItemCard {
+      width: 230px;
+      padding: 10px 20px;
+      border: solid 1px #ccc;
+      border-radius: 10px;
+      margin-right: 20px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      position: relative;
+      .cdName {
+        font-size: 14px;
+        font-weight: bold;
+      }
+      .cdType {
+        font-size: 12px;
+        padding: 2px 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 10px;
+        right: 14px;
+        background-color: rgb(231, 245, 234);
+        border-radius: 8px;
+        color: rgb(61, 143, 83);
+      }
+      .cdType2 {
+        color: rgb(206, 39, 47);
+        background-color: rgb(255, 235, 238);
+      }
+    }
+  }
+}

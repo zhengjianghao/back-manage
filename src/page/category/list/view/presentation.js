@@ -32,7 +32,8 @@ class CategoryList extends React.Component {
       pageSize,
       pageNum,
       cangdiList,
-      total
+      total,
+      searchParams
     } = this.props.categoryList;
 
     const { categoryId } = this.props.match.params;
@@ -77,7 +78,7 @@ class CategoryList extends React.Component {
         pageSize,
         current: pageNum,
         total,
-        onChange: (page, pageSize) => this.props.getCategoryListData(pageSize, page)
+        onChange: (page, pageSize) => this.props.getCategoryListData({...searchParams, size: pageSize, current: page})
       }
     };
 
