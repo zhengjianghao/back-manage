@@ -57,6 +57,9 @@ function delCourseReq(params) {
 function updateCourseReq(params) {
   return post(APIS.UPDATE_COURSE, params);
 }
+function getAllKc(params) {
+  return post(APIS.GET_ALL_CK, params);
+}
 
 export {
   requestProductList,
@@ -66,5 +69,6 @@ export {
   requestCoursePage,
   addCourseReq,
   delCourseReq,
-  updateCourseReq
+  updateCourseReq,
+  getAllKc
 };

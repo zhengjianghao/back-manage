@@ -36,10 +36,16 @@ class EditorModal extends React.Component {
     const { handleEditCategoryName, onEditCallBack,currentEditCategoryData, handleCreateCategory } = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        const { coverImageList } = values
+        const _coverImageList = coverImageList.map(item => item.key)
+        const params = {
+          ...values,
+          coverImageList: _coverImageList
+        }
         if (currentEditCategoryData.id) {
-          handleEditCategoryName({...currentEditCategoryData, ...values }, onEditCallBack);
+          handleEditCategoryName({...currentEditCategoryData, ...params }, onEditCallBack);
         } else {
-          handleCreateCategory({...values}, onEditCallBack)
+          handleCreateCategory({...params}, onEditCallBack)
         }
       }
     });

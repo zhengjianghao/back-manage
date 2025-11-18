@@ -34,7 +34,7 @@ class EditorModal extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         // const { parentId, id } = currentEditCategoryData;
-        const avatar = values.avatar[0]
+        const avatar = values.avatar[0].key
         if (currentEditCategoryData.id) {
           handleEditCategoryName({...currentEditCategoryData, ...values, avatar }, onEditCallBack);
         } else {
@@ -115,10 +115,16 @@ class EditorModal extends React.Component {
               {getFieldDecorator('avatar', {
                 rules: [{ required: true, message: '请上传头像！' }],
                 initialValue:
-                  currentEditCategoryData.avatar ? ([currentEditCategoryData && currentEditCategoryData.avatar]) : []
+                  currentEditCategoryData.avatar ? ([{
+                    key: currentEditCategoryData.avatar,
+                    url: currentEditCategoryData.avatarUrl
+                  }]) : []
               })(
                 <PicUploader
-                  value={[currentEditCategoryData.avatar]}
+                  value={[{
+                    key: currentEditCategoryData.avatar,
+                    url: currentEditCategoryData.avatarUrl
+                  }]}
                   maxLength={1}
                   withOriginSize={false}
                   forBanner={true}

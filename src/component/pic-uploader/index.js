@@ -1,7 +1,7 @@
 import React from 'react'
 import { Upload, Icon, Modal, Button, message } from 'antd'
 
-const replaceHttp = (v) => (v || '').replace(/^http:/, 'https:')
+const replaceHttp = (v) => (v || '').replace(/^http:/, 'http:')
 
 class PicUploader extends React.Component {
   constructor(props) {
@@ -13,7 +13,9 @@ class PicUploader extends React.Component {
           uid: -index,
           name: `${index}.png`,
           status: 'done',
-          url: replaceHttp(v),
+          // url: replaceHttp(v),
+          url: v.url,
+          key: v.key
         }
       })
 
@@ -94,9 +96,15 @@ class PicUploader extends React.Component {
     // }
 
     if (file.status === 'done' || file.status === 'removed') {
-      const value = fileList.map((file) =>
-        file.response ? replaceHttp(file.response.desc) : file.url
-      )
+      // const value = fileList.map((file) =>
+      //   file.response ? replaceHttp(file.response.data.url) : file.url
+      // )
+      const value = fileList.map(file => {
+        return {
+          key: file.response.data.key,
+          url: file.response.data.url
+        }
+      })
 
       this.props.onChange && this.props.onChange(value)
     }
@@ -110,7 +118,9 @@ class PicUploader extends React.Component {
           uid: -index,
           name: `${index}.png`,
           status: 'done',
-          url: replaceHttp(v),
+          // url: replaceHttp(v),
+          url: v.url,
+          key: v.key
         }
       })
 
@@ -130,7 +140,8 @@ class PicUploader extends React.Component {
       accept,
       multiple,
     } = this.state
-    const Host = 'https://ka.xianqu.cn'
+    // const Host = 'https://ka.xianqu.cn'
+    const Host = ''
     const uploadButton =
       this.props.listType === 'text' ? (
         <Button>
@@ -150,7 +161,10 @@ class PicUploader extends React.Component {
         style={this.props.style || {}}>
         <Upload
           disabled={disabled}
-          action={disabled ? null : `${Host}/sp/upload/new`}
+          action={disabled ? null : `${Host}/admin/file/uploadPicture`}
+          headers={{
+            'amulong-token': localStorage.getItem('token') || '',
+          }}
           listType={this.props.listType || 'picture-card'}
           fileList={fileList}
           accept={accept}

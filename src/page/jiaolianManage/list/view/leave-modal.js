@@ -35,14 +35,16 @@ class LeaveModal extends React.Component {
     const { onEditCallBack, currentEditCategoryData } = this.props
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        const { leaveDate, ...others } = values
+        const { leaveDate, attachmentList, ...others } = values
         const startTime = moment(leaveDate[0]).valueOf()
         const endTime = moment(leaveDate[1]).valueOf()
+        const _attachmentList = attachmentList.map(i => i.key)
         const params = {
           ...others,
           startTime,
           endTime,
-          coachId: currentEditCategoryData.id
+          coachId: currentEditCategoryData.id,
+          attachmentList: _attachmentList
         }
         this.props.handleCreateCategory(params, onEditCallBack);
       }

@@ -38,12 +38,13 @@ class CreateModal extends React.Component {
     const { onEditCallBack } = this.props
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        const { facility } = values
+        const { facility, coverImageList } = values
         let _facility = ''
         if (facility.length > 0) {
-          _facility = facility.join('')
+          _facility = facility.join(',')
         }
-        this.props.handleCreateCategory({...values, facility: _facility}, onEditCallBack);
+        const _coverImageList = coverImageList.map(item => item.key)
+        this.props.handleCreateCategory({...values, facility: _facility, coverImageList: _coverImageList}, onEditCallBack);
       }
     });
   }

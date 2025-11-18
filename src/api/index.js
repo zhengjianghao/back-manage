@@ -19,7 +19,8 @@ const APIS = {
    GET_HOME_DATA: '/admin/homepage/data',
    GET_HOME_BIRTHDAY: '/admin/homepage/student/birthday/week',
    GET_HOME_CD_STATUS: '/admin/homepage/court/status',
-   GET_HOME_KC: '/admin/homepage/classSchedule/listSchedules'
+   GET_HOME_KC: '/admin/homepage/classSchedule/listSchedules',
+   GET_ALL_CK: '/admin/course/list'
 };
 
 const host = '';

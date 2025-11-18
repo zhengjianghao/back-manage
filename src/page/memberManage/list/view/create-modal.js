@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Form, Input, Select, Table, Checkbox, Button, InputNumber, DatePicker } from 'antd';
 import { getJLList, addRecord, editRecord, getChareRecord } from 'service/category';
+import { getAllKc } from 'service/product';
 
 import moment from 'moment'
 moment.locale('zh-cn')
@@ -23,12 +24,15 @@ class CreateModal extends React.Component {
     parentCategory: [],
     isCharege: false,
     recordInfo: {},
-    jiaoLianList: []
+    jiaoLianList: [],
+    courseList: [],
+    courseInfo: {}
   }
 
   componentDidMount() {
     this.getRecordList();
-    this.getJiaoLian()
+    this.getJiaoLian();
+    this.getKC();
   }
 
 
@@ -37,22 +41,25 @@ class CreateModal extends React.Component {
     const {data} = await funName(params);
     this.setState({
       isCharege: false,
-      recordInfo: {}
+      recordInfo: {},
+      courseInfo: {}
     })
     this.getRecordList()
   }
 
   handleOk = () => {
     const { onEditCallBack, memberInfo } = this.props
-    const { recordInfo } = this.state
+    const { recordInfo, courseInfo } = this.state
     const that = this
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        const { youxiaoqi, comboType, ...others } = values
+        const { youxiaoqi, ...others } = values
+        const { comboType, id: coachId } = courseInfo
         const params = {
           id: recordInfo.id || '',
           studentId: memberInfo.id,
           comboType,
+          coachId,
           ...others,
         }
         if (comboType == 2) {
@@ -91,6 +98,15 @@ class CreateModal extends React.Component {
     })
   }
 
+  getKC = async () => {
+    const {data} = await getAllKc({
+      name: ''
+    });
+    this.setState({
+      courseList: data
+    })
+  }
+
   /**
    * 生成选择器选项
    * @param {array} datas 选项数据
@@ -106,9 +122,12 @@ class CreateModal extends React.Component {
   }
 
   charge = (info) => {
+    const { courseList } = this.state
+    const courseInfo = courseList.filter(i => i.id == info.courseId)
     this.setState({
       isCharege: true,
-      recordInfo: info
+      recordInfo: info,
+      courseInfo: courseInfo[0]
     })
   }
 
@@ -122,14 +141,24 @@ class CreateModal extends React.Component {
   cancelCharge = () => {
     this.setState({
       isCharege: false,
-      recordInfo: {}
+      recordInfo: {},
+      courseInfo: {}
     })
+  }
+
+  changeCoourse = (val) => {
+    const { courseList } = this.state
+    const courseInfo = courseList.filter(i => i.id == val)
+    this.setState({
+      courseInfo: courseInfo[0]
+    })
+
   }
 
   render() {
     const { visible, form } = this.props;
     const { getFieldDecorator, getFieldsValue, getFieldValue } = form;
-    const { isCharege, recordInfo, jiaoLianList, chargeRecordList } = this.state
+    const { isCharege, recordInfo, jiaoLianList, chargeRecordList, courseList, courseInfo } = this.state
     const columns = [{
       title: '记录Id',
       dataIndex: 'id',
@@ -172,7 +201,8 @@ class CreateModal extends React.Component {
       rowKey: 'id',
     };
     // const formVal = getFieldsValue(['comboType','baseFee' ])
-    const formCommissionType = getFieldValue('comboType') || 1
+    // const formCommissionType = getFieldValue('comboType') || 1
+    const formCommissionType = courseInfo.comboType
     return (
       <span>
         <Modal
@@ -219,7 +249,36 @@ class CreateModal extends React.Component {
                   </Select>
                 )}
               </Form.Item>
-              <Form.Item {...formItemLayout} label="套餐类型">
+              <Form.Item  {...formItemLayout} label="课程">
+                {getFieldDecorator('courseId', {
+                  initialValue: recordInfo.courseId || '',
+                  rules: [{
+                    required: true, message: '请选择课程',
+                  }],
+                  // initialValue: '',
+                })(
+                  <Select
+                    style={{ width: 150 }}
+                    placeholder="请选择课程"
+                    showSearch
+                    optionFilterProp="children"
+                    filterOption={(input, option) => {
+                      return option.props.children.indexOf(input) != -1;
+                    }}
+                    onChange={this.changeCoourse}
+                  >
+                    {(courseList && courseList).map((item) => {
+                      return (
+                        <Option
+                          value={item.id}
+                        >{`${item.name}`}</Option>
+                      );
+                    })}
+                  </Select>
+                )}
+              </Form.Item>
+
+              {/* <Form.Item {...formItemLayout} label="套餐类型">
                {getFieldDecorator('comboType', {
                   initialValue: recordInfo.comboType || 1,
                   rules: [{
@@ -234,8 +293,8 @@ class CreateModal extends React.Component {
                     <Option value={2}>训练卡</Option>
                   </Select>
                 )}
-              </Form.Item>
-              {
+              </Form.Item> */}
+              {/* {
                 formCommissionType == 1 &&
                 <Form.Item {...formItemLayout} label="套课类型">
                 {getFieldDecorator('courseSetType', {
@@ -255,63 +314,68 @@ class CreateModal extends React.Component {
                     </Select>
                   )}
                 </Form.Item>
-              }
-              <Form.Item {...formItemLayout} label="充值金额（元）">
-                {getFieldDecorator('courseAmount', {
-                  initialValue: recordInfo.courseAmount || '',
-                  rules: [{ required: true, message: '请输入金额' }],
-                })(<InputNumber />)}
-              </Form.Item>
+              } */}
               {
-                formCommissionType == 1 &&
-                <Form.Item {...formItemLayout} label="课时数量">
-                  {getFieldDecorator('courseCount', {
-                    initialValue: recordInfo.courseCount || '',
-                    rules: [{ required: formCommissionType == 1, message: '请输入课时数量' }],
-                  })(<InputNumber />)}
-                </Form.Item>
+                courseInfo.id && <div>
+                  <Form.Item {...formItemLayout} label="充值金额（元）">
+                    {getFieldDecorator('courseAmount', {
+                      initialValue: recordInfo.courseAmount || '',
+                      rules: [{ required: true, message: '请输入金额' }],
+                    })(<InputNumber />)}
+                  </Form.Item>
+                  {
+                    formCommissionType == 1 &&
+                    <Form.Item {...formItemLayout} label="课时数量">
+                      {getFieldDecorator('courseCount', {
+                        initialValue: recordInfo.courseCount || '',
+                        rules: [{ required: formCommissionType == 1, message: '请输入课时数量' }],
+                      })(<InputNumber />)}
+                    </Form.Item>
+                  }
+                  {/* {
+                    formCommissionType == 2 && 
+                    <Form.Item {...formItemLayout} label="训练卡类型">
+                    {getFieldDecorator('trainingCardType', {
+                        initialValue: recordInfo.trainingCardType || 1,
+                        rules: [{
+                          required: formCommissionType == 2, message: '请选择训练卡类型',
+                        }],
+                      })(
+                        <Select
+                          style={{ width: 150 }}
+                          placeholder="选择类型"
+                        >
+                          <Option value={1}>周卡</Option>
+                          <Option value={2}>月卡</Option>
+                          <Option value={3}>季卡</Option>
+                          <Option value={4}>年卡</Option>
+                        </Select>
+                      )}
+                    </Form.Item>
+                  } */}
+                  {
+                    formCommissionType == 2 &&
+                    <Form.Item {...formItemLayout} label="训练卡有效期">
+                      {getFieldDecorator('youxiaoqi', {
+                        initialValue: recordInfo.startTime ? [moment(recordInfo.startTime), moment(recordInfo.endTime)] : [],
+                        rules: [{ required: formCommissionType == 2, message: '请选择训练卡有效期' }],
+                      })(
+                        <RangePicker
+                          size="default"
+                          format="YYYY-MM-DD"
+                          placeholder="请选择时间"
+                        />
+                      )}
+                    </Form.Item>
+                  }
+                  <Form.Item {...formItemLayout} label="备注">
+                    {getFieldDecorator('remark', {
+                      initialValue: recordInfo.remark || '',
+                    })(<Input placeholder="请输入备注" />)}
+                  </Form.Item>
+
+                </div>
               }
-              {
-                formCommissionType == 2 && 
-                <Form.Item {...formItemLayout} label="训练卡类型">
-                {getFieldDecorator('trainingCardType', {
-                    initialValue: recordInfo.trainingCardType || 1,
-                    rules: [{
-                      required: formCommissionType == 2, message: '请选择训练卡类型',
-                    }],
-                  })(
-                    <Select
-                      style={{ width: 150 }}
-                      placeholder="选择类型"
-                    >
-                      <Option value={1}>周卡</Option>
-                      <Option value={2}>月卡</Option>
-                      <Option value={3}>季卡</Option>
-                      <Option value={4}>年卡</Option>
-                    </Select>
-                  )}
-                </Form.Item>
-              }
-              {
-                formCommissionType == 2 &&
-                <Form.Item {...formItemLayout} label="训练卡有效期">
-                  {getFieldDecorator('youxiaoqi', {
-                    initialValue: recordInfo.startTime ? [moment(recordInfo.startTime), moment(recordInfo.endTime)] : [],
-                    rules: [{ required: formCommissionType == 2, message: '请选择训练卡有效期' }],
-                  })(
-                    <RangePicker
-                      size="default"
-                      format="YYYY-MM-DD"
-                      placeholder="请选择时间"
-                    />
-                  )}
-                </Form.Item>
-              }
-              <Form.Item {...formItemLayout} label="备注">
-                {getFieldDecorator('remark', {
-                  initialValue: recordInfo.remark || '',
-                })(<Input placeholder="请输入备注" />)}
-              </Form.Item>
               
             </Form>
           }

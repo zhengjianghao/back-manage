@@ -33,12 +33,13 @@ class EditorModal extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         // const { parentId, id } = currentEditCategoryData;
-        const { facility } = values
+        const { facility, coverImageList } = values
         let _facility = ''
         if (facility.length > 0) {
-          _facility = facility.join('')
+          _facility = facility.join(',')
         }
-        handleEditCategoryName(values, onEditCallBack);
+        const _coverImageList = coverImageList.map(item => item.key)
+        handleEditCategoryName({...values, coverImageList: _coverImageList, facility: _facility}, onEditCallBack);
       }
     });
   }
