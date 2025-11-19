@@ -49,7 +49,11 @@ class CreateModal extends React.Component {
 
   handleOk = () => {
     const { onEditCallBack, memberInfo } = this.props
-    const { recordInfo, courseInfo } = this.state
+    const { recordInfo, courseInfo, isCharege } = this.state
+    if (!isCharege) {
+      this.handleCancel()
+      return
+    }
     const that = this
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
@@ -76,7 +80,6 @@ class CreateModal extends React.Component {
 
   getRecordList = async () => {
     const { memberInfo } = this.props
-    debugger
     const {data} = await getChareRecord(memberInfo.id);
     this.setState({
       chargeRecordList: data.records
@@ -147,10 +150,17 @@ class CreateModal extends React.Component {
   }
 
   changeCoourse = (val) => {
-    const { courseList } = this.state
+    const { courseList, recordInfo } = this.state
     const courseInfo = courseList.filter(i => i.id == val)
+    const { setFieldsValue } = this.props.form
+
+    recordInfo.courseAmount = courseInfo[0].amount
+    if (courseInfo[0].comboType == 1) {
+      recordInfo.courseCount = courseInfo[0].number
+    }
     this.setState({
-      courseInfo: courseInfo[0]
+      courseInfo: courseInfo[0],
+      recordInfo: {...recordInfo}
     })
 
   }

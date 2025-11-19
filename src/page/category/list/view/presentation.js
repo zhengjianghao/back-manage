@@ -44,7 +44,7 @@ class CategoryList extends React.Component {
       key: 'name',
     }, {
       title: '类型',
-      dataIndex: 'typtypeDesce',
+      dataIndex: 'typeDesc',
       key: 'typeDesc',
     }, {
       title: '容量',
@@ -95,20 +95,26 @@ class CategoryList extends React.Component {
           <Button type='primary' onClick={this.props.handleOpenCreateModal}>新增</Button>
         </div>
         <Table {...tableProps} />
-        <EditorModal
-          editorModalVisible={editorModalVisible}
-          currentEditCategoryData={currentEditCategoryData}
-          handleCancelEdit={this.props.handleCancelEdit}
-          handleEditCategoryName={this.props.handleEditCategoryName}
-          onEditCallBack={this.getList}
-        />
-        <CreateModal
-          parentId={categoryId}
-          visible={createModalVisible}
-          handleCancelCreate={this.props.handleCancelCreate}
-          onEditCallBack={this.getList}
-          handleCreateCategory={this.props.handleCreateCategory}
-        />
+        {
+          editorModalVisible &&
+            <EditorModal
+              editorModalVisible={editorModalVisible}
+              currentEditCategoryData={currentEditCategoryData}
+              handleCancelEdit={this.props.handleCancelEdit}
+              handleEditCategoryName={this.props.handleEditCategoryName}
+              onEditCallBack={this.getList}
+            />
+        }
+        {
+          createModalVisible && 
+          <CreateModal
+            parentId={categoryId}
+            visible={createModalVisible}
+            handleCancelCreate={this.props.handleCancelCreate}
+            onEditCallBack={this.getList}
+            handleCreateCategory={this.props.handleCreateCategory}
+          />
+        }
       </PageWrapper>
     );
   }

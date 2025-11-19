@@ -73,7 +73,7 @@ class EditorModal extends React.Component {
     return (
       <span>
         <Modal
-          title={`${currentEditCategoryData.id ? '修改' : '新增'}会员`}
+          title={`${currentEditCategoryData.id ? '修改' : '新增'}课程`}
           visible={editorModalVisible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}

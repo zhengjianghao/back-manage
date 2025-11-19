@@ -111,7 +111,7 @@ class EditorModal extends React.Component {
                 <Upload />
               )}
             </Form.Item> */}
-            <Form.Item {...formItemLayout} label="头像2">
+            <Form.Item {...formItemLayout} label="教练头像">
               {getFieldDecorator('avatar', {
                 rules: [{ required: true, message: '请上传头像！' }],
                 initialValue:

@@ -52,6 +52,10 @@ class JiaolianList extends React.Component {
       title: '名称',
       dataIndex: 'name',
       key: 'name',
+    },{
+      title: '手机号',
+      dataIndex: 'phone',
+      key: 'phone',
     }, {
       title: '性别',
       dataIndex: 'genderDesc',

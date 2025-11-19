@@ -56,7 +56,7 @@ const handleCancelEdit = () => ({
 const showSetMoney = (val) => {
   return async dispatch => {
     try {
-      const data = await getJLMoneyConfig(val.id);
+      const { data } = await getJLMoneyConfig(val.id);
 
       dispatch({
         type: GET_CATEGORY_LIST_DATA,

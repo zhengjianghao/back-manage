@@ -28,6 +28,7 @@ class CreateModal extends React.Component {
     const { onEditCallBack, baseDate,  } = this.props
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        debugger
         const configList = baseDate.configList.map((item, index) => {
           return {
             ...item,
@@ -77,7 +78,7 @@ class CreateModal extends React.Component {
               baseDate.configList.map((item, index) => {
                 return (
                   <div key={item.id} className={style.itembox}>
-                    <h2 className={style.title}>高级教练课</h2>
+                    <h2 className={style.title}>{item.courseSetTypeDesc}</h2>
                     <Form.Item {...formItemLayout} label="基础课时费">
                       {getFieldDecorator('baseFee' + index, {
                         initialValue: item.baseFee,

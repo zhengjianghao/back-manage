@@ -52,10 +52,6 @@ class MemberList extends React.Component {
       dataIndex: 'vipLevelString',
       key: 'vipLevelString',
     }, {
-      title: '套餐类型',
-      dataIndex: 'courseSetTypeDesc',
-      key: 'courseSetTypeDesc',
-    }, {
       title: '缴费总额',
       dataIndex: 'totalAmount',
       key: 'totalAmount',
@@ -76,14 +72,6 @@ class MemberList extends React.Component {
       title: '入会日期',
       dataIndex: 'joinTimeStr',
       key: 'joinTimeStr',
-    }, {
-      title: '会员到期时间',
-      dataIndex: 'statusDesc',
-      key: 'statusDesc',
-    }, {
-      title: '状态',
-      dataIndex: 'statusDesc',
-      key: 'statusDesc',
     }, {
       title: '操作',
       key: 'action',

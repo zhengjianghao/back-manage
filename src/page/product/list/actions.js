@@ -110,6 +110,13 @@ const addCourse = (params, cb) => {
   return async dispatch => {
     try {
       const {data} = await addCourseReq(params);
+      dispatch({
+        type: GET_PRODUCT_LIST_DATA,
+        payload: {
+          editorModalVisible: false,
+          currentEditCategoryData: {}
+        }
+      });
       cb && cb()
     } catch (error) {
       message.error(error);

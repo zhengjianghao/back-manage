@@ -29,17 +29,17 @@ class EditorModal extends React.Component {
     ]
   }
   handleOk = () => {
-    const { handleEditCategoryName, onEditCallBack } = this.props;
+    const { handleEditCategoryName, onEditCallBack, currentEditCategoryData } = this.props;
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        // const { parentId, id } = currentEditCategoryData;
+        const { id } = currentEditCategoryData;
         const { facility, coverImageList } = values
         let _facility = ''
         if (facility.length > 0) {
           _facility = facility.join(',')
         }
         const _coverImageList = coverImageList.map(item => item.key)
-        handleEditCategoryName({...values, coverImageList: _coverImageList, facility: _facility}, onEditCallBack);
+        handleEditCategoryName({...values, coverImageList: _coverImageList, facility: _facility, id}, onEditCallBack);
       }
     });
   }
